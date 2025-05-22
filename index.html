@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BD TOPUP.COM - ফ্রি ফায়ার অর্ডার</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+      margin: 0;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #0a7b83;
+    }
+    .title-arabic {
+      text-align: center;
+      font-size: 20px;
+      margin-top: -10px;
+      color: #555;
+    }
+    .package-box {
+      border: 2px solid #0a7b83;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      background-color: #e0f7f9;
+      text-align: center;
+      cursor: pointer;
+    }
+    .form-section {
+      margin-top: 30px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0a7b83;
+      color: white;
+      border: none;
+    }
+    .success-box {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      margin-top: 15px;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none;
+    }
+    .payment-box {
+      margin-top: 20px;
+      background-color: #fff5e6;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ffa726;
+    }
+    .copy-section {
+      display: flex;
+    }
+    .copy-section input {
+      flex: 1;
+    }
+    .send-instruction {
+      color: red;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>BD TOPUP.COM</h1>
+<div class="title-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+
+
+<h3>বাংলাদেশ সার্ভার</h3>
+<div class="package-box" onclick="selectPackage('25', '২০', 'Bangladesh')">২৫ ডায়মন্ড – ২০ টাকা</div>
+<div class="package-box" onclick="selectPackage('50', '৩০', 'Bangladesh')">৫০ ডায়মন্ড – ৩০ টাকা</div>
+<div class="package-box" onclick="selectPackage('115', '৭৫', 'Bangladesh')">১১৫ ডায়মন্ড – ৭৫ টাকা</div>
+<div class="package-box" onclick="selectPackage('240', '১৪০', 'Bangladesh')">২৪০ ডায়মন্ড – ১৪০ টাকা</div>
+<div class="package-box" onclick="selectPackage('610', '৩৬০', 'Bangladesh')">৬১০ ডায়মন্ড – ৩৬০ টাকা</div>
+<div class="package-box" onclick="selectPackage('1240', '৬৯৯', 'Bangladesh')">১২৪০ ডায়মন্ড – ৬৯৯ টাকা</div>
+<div class="package-box" onclick="selectPackage('2530', '১৪৫০', 'Bangladesh')">২৫৩০ ডায়মন্ড – ১৪৫০ টাকা</div>
+<div class="package-box" onclick="selectPackage('5060', '২৯০০', 'Bangladesh')">৫০৬০ ডায়মন্ড – ২৯০০ টাকা</div>
+<div class="package-box" onclick="selectPackage('10120', '৬০০০', 'Bangladesh')">১০১২০ ডায়মন্ড – ৬০০০ টাকা</div>
+
+<h3>উইকলি / মাসিক</h3>
+<div class="package-box" onclick="selectPackage('Weekly Lite', '৩০', 'Bangladesh')">উইকলি লাইট – ৩০ টাকা</div>
+<div class="package-box" onclick="selectPackage('Weekly', '১৩০', 'Bangladesh')">উইকলি – ১৩০ টাকা</div>
+<div class="package-box" onclick="selectPackage('Monthly', '৫৮০', 'Bangladesh')">মাসিক – ৫৮০ টাকা</div>
+<div class="package-box" onclick="selectPackage('Level Up Pass', '১৩০', 'Bangladesh')">লেভেল আপ পাশ – ১৩০ টাকা</div>
+
+<h3>এয়ারড্রপ</h3>
+<div class="package-box" onclick="selectPackage('0.99$', '৮০', 'Bangladesh')">০.৯৯$ – ৮০ টাকা</div>
+<div class="package-box" onclick="selectPackage('1.99$', '১৮০', 'Bangladesh')">১.৯৯$ – ১৮০ টাকা</div>
+<div class="package-box" onclick="selectPackage('2.99$', '২৮০', 'Bangladesh')">২.৯৯$ – ২৮০ টাকা</div>
+<div class="package-box" onclick="selectPackage('3.99$', '৩৮০', 'Bangladesh')">৩.৯৯$ – ৩৮০ টাকা</div>
+
+<h3>ইভু এক্সসেস</h3>
+<div class="package-box" onclick="selectPackage('3 দিন', '৬৯', 'Bangladesh')">৩ দিন – ৬৯ টাকা</div>
+<div class="package-box" onclick="selectPackage('7 দিন', '১১০', 'Bangladesh')">৭ দিন – ১১০ টাকা</div>
+<div class="package-box" onclick="selectPackage('30 দিন', '২৮৭', 'Bangladesh')">৩০ দিন – ২৮৭ টাকা</div>
+
+<h3>ইন্দোনেশিয়া সার্ভার</h3>
+<div class="package-box" onclick="selectPackage('5', '১৫', 'Indonesia')">৫ ডায়মন্ড – ১৫ টাকা</div>
+<div class="package-box" onclick="selectPackage('50', '৬০', 'Indonesia')">৫০ ডায়মন্ড – ৬০ টাকা</div>
+<div class="package-box" onclick="selectPackage('70', '৮০', 'Indonesia')">৭০ ডায়মন্ড – ৮০ টাকা</div>
+<div class="package-box" onclick="selectPackage('140', '১৭০', 'Indonesia')">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
+<div class="package-box" onclick="selectPackage('355', '৪৪০', 'Indonesia')">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
+<div class="package-box" onclick="selectPackage('720', '৮৩০', 'Indonesia')">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
+<div class="package-box" onclick="selectPackage('1440', '১৮৯০', 'Indonesia')">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
+<div class="package-box" onclick="selectPackage('Level Up Pass', '১৭০', 'Indonesia')">Level Up Pass – ১৭০ টাকা</div>
+<div class="package-box" onclick="selectPackage('Weekly', '২৫৯', 'Indonesia')">Weekly – ২৫৯ টাকা</div>
+<div class="package-box" onclick="selectPackage('Monthly', '৮৯৯', 'Indonesia')">Monthly – ৮৯৯ টাকা</div>
+<div class="package-box" onclick="selectPackage('BP Card', '৩৯৯', 'Indonesia')">BP Card – ৩৯৯ টাকা</div>
+<div class="form-section">
+  <h3>অর্ডার করুন</h3>
+  <label>UID</label>
+  <input type="text" id="uidInput" placeholder="আপনার গেম UID দিন">
+  
+  <label>Diamond</label>
+  <input type="text" id="diamondInput" placeholder="ডায়মন্ড প্যাকেজ">
+
+  <label>Amount</label>
+  <input type="text" id="amountInput" placeholder="টাকা">
+
+  <label>TrxID</label>
+  <input type="text" id="trxInput" placeholder="লেনদেন নম্বর (TrxID)">
+
+  <label>Server</label>
+  <select id="typeSelect">
+    <option value="Bangladesh">Bangladesh</option>
+    <option value="Indonesia">Indonesia</option>
+  </select>
+
+  <button onclick="placeOrder()">অর্ডার করুন</button>
+</div>
+
+<div id="successMessage" class="success-box">
+  ✅ আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!
+</div>
+
+<div class="payment-box">
+  <h3>বিকাশ / নগদ নাম্বার</h3>
+  <div class="copy-section">
+    <input type="text" value="01822769871" id="paymentNumber" readonly />
+    <button onclick="copyNumber()">কপি করুন</button>
+  </div>
+  <p class="send-instruction">নগদ বিকাশ নাম্বার এ সেন্ড মানি করুন</p>
+</div>
+
+<script>
+  function selectPackage(diamond, price, type) {
+    document.getElementById('diamondInput').value = diamond;
+    document.getElementById('amountInput').value = price;
+    document.getElementById('typeSelect').value = type;
+  }
+
+  function placeOrder() {
+    // অর্ডার সফল হলে success message দেখাও
+    document.getElementById("successMessage").style.display = "block";
+    setTimeout(function () {
+      document.getElementById("successMessage").style.display = "none";
+    }, 5000);
+  }
+
+  function copyNumber() {
+    const copyText = document.getElementById("paymentNumber");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("নাম্বার কপি হয়েছে: " + copyText.value);
+  }
+</script>
+
+
+<div class="help-box" style="margin-top: 20px; text-align: center;">
+  <p style="color: #333; font-weight: bold;">টপআপ এর যেই কোন সমস্যার সমাধান নিন</p>
+  <a href="https://t.me/BDTOPUPCOM24" target="_blank" style="text-decoration: none;">
+    <button style="background-color: #0088cc; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+      হেল্প লাইনে যান
+    </button>
+  </a>
+</div>
+
+</body>
+</html>
