@@ -68,34 +68,14 @@
 <input class="input-box" id="selectedPack" placeholder="আপনার প্যাকেজ অটো বসবে" readonly />
 
 <div class="section-title">বিকাশ/নগদ নাম্বার</div>
-<div class="box" onclick="copy('01822769871')">01822769871 (Send Money করুন)</div>
-
-<div class="section-title">শুক্রবারের বিশেষ অফার</div>
-<div class="box box-friday" id="fridayBox" style="display:none;" onclick="selectPack('শুক্রবার উইকলি অফার – ৮০ টাকা')">
-  শুক্রবার অফার: উইকলি – ৮০ টাকা
-</div>
-
-<div class="section-title">বাংলাদেশ সার্ভার</div>
-<div class="box" onclick="selectPack('২৫ ডায়মন্ড – ২০ টাকা')">২৫ ডায়মন্ড – ২০ টাকা</div>
-<div class="box" onclick="selectPack('৫০ ডায়মন্ড – ৩০ টাকা')">৫০ ডায়মন্ড – ৩০ টাকা</div>
-<div class="box" onclick="selectPack('১১৫ ডায়মন্ড – ৭৫ টাকা')">১১৫ ডায়মন্ড – ৭৫ টাকা</div>
-<div class="box" onclick="selectPack('২৪০ ডায়মন্ড – ১৪০ টাকা')">২৪০ ডায়মন্ড – ১৪০ টাকা</div>
-<div class="box" onclick="selectPack('৬১০ ডায়মন্ড – ৩৬০ টাকা')">৬১০ ডায়মন্ড – ৩৬০ টাকা</div>
-<div class="box" onclick="selectPack('১২৪০ ডায়মন্ড – ৬৯৯ টাকা')">১২৪০ ডায়মন্ড – ৬৯৯ টাকা</div>
-<div class="box" onclick="selectPack('২৫৩০ ডায়মন্ড – ১৪৫০ টাকা')">২৫৩০ ডায়মন্ড – ১৪৫০ টাকা</div>
-<div class="box" onclick="selectPack('৫০৬০ ডায়মন্ড – ২৯০০ টাকা')">৫০৬০ ডায়মন্ড – ২৯০০ টাকা</div>
-<div class="box" onclick="selectPack('১০১২০ ডায়মন্ড – ৬০০০ টাকা')">১০১২০ ডায়মন্ড – ৬০০০ টাকা</div>
-
-<div class="section-title">ইভো এক্সেস</div>
-<div class="box" onclick="selectPack('৩ দিন – ৬৯ টাকা')">৩ দিন – ৬৯ টাকা</div>
-<div class="box" onclick="selectPack('৭ দিন – ১১০ টাকা')">৭ দিন – ১১০ টাকা</div>
-<div class="box" onclick="selectPack('৩০ দিন – ২৮৭ টাকা')">৩০ দিন – ২৮৭ টাকা</div>
+<div class="box" onclick="copy('01822769871')">01822769871 (Send Money করুন)</div><div class="section-title">ইভো এক্সেস</div>
+<div class="box" onclick="selectPack('৩ দিন ইভো – ৬৯ টাকা')">৩ দিন – ৬৯ টাকা</div>
+<div class="box" onclick="selectPack('৭ দিন ইভো – ১১০ টাকা')">৭ দিন – ১১০ টাকা</div>
+<div class="box" onclick="selectPack('৩০ দিন ইভো – ২৮৭ টাকা')">৩০ দিন – ২৮৭ টাকা</div>
 
 <div class="section-title">এয়ারড্রপ</div>
 <div class="box" onclick="selectPack('০.৯৯$ – ৮০ টাকা')">০.৯৯$ – ৮০ টাকা</div>
 <div class="box" onclick="selectPack('১.৯৯$ – ১৮০ টাকা')">১.৯৯$ – ১৮০ টাকা</div>
-<div class="box" onclick="selectPack('২.৯৯$ – ২৮০ টাকা')">২.৯৯$ – ২৮০ টাকা</div>
-<div class="box" onclick="selectPack('৩.৯৯$ – ৩৮০ টাকা')">৩.৯৯$ – ৩৮০ টাকা</div>
 
 <div class="section-title">ইন্দোনেশিয়া সার্ভার</div>
 <div class="box" onclick="selectPack('৫ ডায়মন্ড – ১৫ টাকা')">৫ ডায়মন্ড – ১৫ টাকা</div>
@@ -141,6 +121,18 @@
     document.getElementById("successMsg").innerHTML = 
       `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>আপনার গেমে ডায়মন্ড পৌঁছে যাবে ইনশাআল্লাহ।`;
     document.getElementById("successMsg").style.display = "block";
+
+    // Telegram system
+    const tokenPart1 = "7786024985";
+    const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
+    const botToken = tokenPart1 + ":" + tokenPart2;
+    const chatId = "6108340963";
+    const message = `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: message })
+    });
   }
 
   if (new Date().getDay() === 5) {
@@ -149,4 +141,4 @@
 </script>
 
 </body>
-  </html>
+</html>
