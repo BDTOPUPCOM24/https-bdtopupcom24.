@@ -1,252 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>BDTOPUP.COM | Premium Order System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</title>
   <style>
-    body {
-      margin: 0; font-family: 'Noto Sans Bengali', sans-serif;
-      background: linear-gradient(to right, #8E2DE2, #4A00E0);
-      color: #fff;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #ffffff;
-      color: #000;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.2);
-      margin-top: 40px;
-    }
-    h1, h2 {
-      text-align: center;
-      color: #1E88E5;
-    }
-    .bismillah {
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #4A00E0;
-      margin-bottom: 10px;
-    }
-    select, input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
+    body { font-family: 'Arial'; background: #f2f2f2; padding: 10px; text-align: center; }
+    .section-title { font-size: 20px; margin-top: 25px; font-weight: bold; color: #333; }
+    .box {
+      background: #fff;
+      border: 2px solid #00bcd4;
+      padding: 10px;
+      margin: 5px auto;
+      width: 90%;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      background: linear-gradient(to right, #FF512F, #DD2476);
-      color: white;
-      border: none;
-      font-weight: bold;
       cursor: pointer;
     }
-    .success-msg {
-      display: none;
-      background: #4CAF50;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    .copy-box {
-      background: #f2f2f2;
+    .box:hover { background: #e0f7fa; }
+    .box-friday { background: #ffebee; border-color: #e53935; color: #b71c1c; }
+    .warn {
+      background: #fff3cd;
+      color: #856404;
       padding: 10px;
       border-radius: 6px;
-      text-align: center;
-      margin-bottom: 10px;
+      margin-top: 10px;
+      border: 1px solid #ffeeba;
     }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      display: none;
+      border: 1px solid #c3e6cb;
+    }
+    .input-box {
+      padding: 8px;
+      margin: 5px;
+      width: 80%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #0097a7; }
   </style>
 </head>
 <body>
-<div style="background:#e3f2fd;padding:20px;border-radius:10px;margin-bottom:20px;border:1px solid #90caf9;">
-  <h2 style="text-align:center;color:#0d47a1;">BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</h2>
-  <p style="font-size:16px;line-height:1.6;color:#1a237e;">
-    ভাবছেন ডায়মন্ড নিবেন, কিন্তু বিশ্বস্ত পেজ পাচ্ছেন না?<br>
-    বিশ্বস্ততার সাথে টপ-আপ দেওয়াই আমাদের মূল লক্ষ্য!
-  </p>
-  <ul style="color:#0d47a1;font-weight:bold;">
-    <li>✅ অল্প দামে সব সার্ভিস</li>
-    <li>✅ ৫ বছর ধরে বিশ্বস্ততার সাথে ব্যবসা</li>
-    <li>✅ কাস্টমার রিভিউ Available</li>
-    <li>✅ ইনস্ট্যান্ট অর্ডার সিস্টেম (UID + TrxID)</li>
-  </ul>
-  <p style="color:#1b5e20;">
-    ⏰ ডেলিভারি টাইম: মাত্র ৩০ সেকেন্ড<br>
-    💸 পেমেন্ট: বিকাশ, নগদ, রকেট (Send Money)
-  </p>
-  <p style="color:#0d47a1;">Live Order Site: 
-    <a href="https://bdtopupcom24.github.io/https-bdtopupcom24./" style="color:#0d47a1;font-weight:bold;" target="_blank">
-      https://bdtopupcom24.github.io/https-bdtopupcom24./
-    </a>
-  </p>
+
+<h3 style="color:green;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
+<h2 style="color:#007bff;">BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</h2>
+
+<div class="warn">
+  ⚠️ সতর্কতা: প্রথমে টাকা Send করে তারপর সঠিকভাবে UID ও TrxID দিয়ে অর্ডার করুন। ভুল দিলে অর্ডার বাতিল হতে পারে।
 </div>
 
+<input class="input-box" placeholder="আপনার Game UID" id="uid" />
+<input class="input-box" placeholder="TrxID" id="trxid" />
+<input class="input-box" id="selectedPack" placeholder="আপনার প্যাকেজ অটো বসবে" readonly />
 
-<div class="container">
-  <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-  <h1>BDTOPUP.COM</h1>
-  <h2>ফ্রি ফায়ার অর্ডার সিস্টেম</h2>
+<div class="section-title">বিকাশ/নগদ নাম্বার</div>
+<div class="box" onclick="copy('01822769871')">01822769871 (Send Money করুন)</div>
 
-  <label>UID</label>
-  <input type="text" id="uid" placeholder="আপনার UID লিখুন">
-
-  <label>প্যাকেজ সিলেক্ট করুন</label>
-  <select id="diamond">
-<option>25 ডায়মন্ড – ২০ টাকা</option>
-<option>50 ডায়মন্ড – ৩০ টাকা</option>
-<option>115 ডায়মন্ড – ৭৫ টাকা</option>
-<option>240 ডায়মন্ড – ১৪০ টাকা</option>
-<option>610 ডায়মন্ড – ৩৬০ টাকা</option>
-<option>1240 ডায়মন্ড – ৬৯৯ টাকা</option>
-<option>2530 ডায়মন্ড – ১৪৫০ টাকা</option>
-<option>5060 ডায়মন্ড – ২৯০০ টাকা</option>
-<option>10120 ডায়মন্ড – ৬০০০ টাকা</option>
-<option>উইকলি লাইট – ৩০ টাকা</option>
-<option>উইকলি – ১৩০ টাকা</option>
-<option>মাটলি – ৫৮০ টাকা</option>
-<option>লেভেল আপ পাশ – ১৩০ টাকা</option>
-<option>০.৯৯$ – ৮০ টাকা</option>
-<option>১.৯৯$ – ১৮০ টাকা</option>
-<option>২.৯৯$ – ২৮০ টাকা</option>
-<option>৩.৯৯$ – ৩৮০ টাকা</option>
-<option>ইভু এক্সসেস – ৩ দিন – ৬৯ টাকা</option>
-<option>ইভু এক্সসেস – ৭ দিন – ১১০ টাকা</option>
-<option>ইভু এক্সসেস – ৩০ দিন – ২৮৭ টাকা</option>
-<option>৫ ডায়মন্ড – ১৫ টাকা</option>
-<option>৫০ ডায়মন্ড – ৬০ টাকা</option>
-<option>৭০ ডায়মন্ড – ৮০ টাকা</option>
-<option>১৪০ ডায়মন্ড – ১৭০ টাকা</option>
-<option>৩৫৫ ডায়মন্ড – ৪৪০ টাকা</option>
-<option>৭২০ ডায়মন্ড – ৮৩০ টাকা</option>
-<option>১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</option>
-<option>Level Up Pass – ১৭০ টাকা</option>
-<option>Weekly – ২৫৯ টাকা</option>
-<option>Monthly – ৮৯৯ টাকা</option>
-<option>BP Card – ৩৯৯ টাকা</option>
-</select>
-
-<button onclick="toggleMode()" style="margin-top:10px;background:#444;">🌙 Light/Dark মোড</button>
-
-  <label>টাকা</label>
-  <input type="text" id="amount" placeholder="টাকা লিখুন">
-
-  <label>TrxID</label>
-  <input type="text" id="trxid" placeholder="বিকাশ / নগদ TrxID দিন">
-
-  <label>Server</label>
-  <select id="server">
-    <option>Bangladesh</option>
-    <option>Indonesia</option>
-  </select>
-
-  <div class="copy-box">
-    বিকাশ/নগদ নম্বর: <strong id="payNum">01822769871</strong><br>
-    <button onclick="copyNumber()">কপি করুন + Send Money করুন</button>
-  </div>
-
-  <button onclick="placeOrder()">✅ অর্ডার করুন</button>
-
-  <div class="success-msg" id="successBox">✅ অর্ডার সফল হয়েছে!</div>
-
-<div id="historyBox" style="margin-top:30px; background:#f0f0f0; padding:15px; border-radius:8px; color:#000;">
-  <h3>📜 অর্ডার হিস্টোরি</h3>
-  <div id="historyList">এখনও কোনো অর্ডার পাওয়া যায়নি।</div>
+<div class="section-title">শুক্রবারের বিশেষ অফার</div>
+<div class="box box-friday" id="fridayBox" style="display:none;" onclick="selectPack('শুক্রবার উইকলি অফার – ৮০ টাকা')">
+  শুক্রবার অফার: উইকলি – ৮০ টাকা
 </div>
 
+<div class="section-title">বাংলাদেশ সার্ভার</div>
+<div class="box" onclick="selectPack('২৫ ডায়মন্ড – ২০ টাকা')">২৫ ডায়মন্ড – ২০ টাকা</div>
+<div class="box" onclick="selectPack('৫০ ডায়মন্ড – ৩০ টাকা')">৫০ ডায়মন্ড – ৩০ টাকা</div>
+<div class="box" onclick="selectPack('১১৫ ডায়মন্ড – ৭৫ টাকা')">১১৫ ডায়মন্ড – ৭৫ টাকা</div>
+<div class="box" onclick="selectPack('২৪০ ডায়মন্ড – ১৪০ টাকা')">২৪০ ডায়মন্ড – ১৪০ টাকা</div>
+<div class="box" onclick="selectPack('৬১০ ডায়মন্ড – ৩৬০ টাকা')">৬১০ ডায়মন্ড – ৩৬০ টাকা</div>
+<div class="box" onclick="selectPack('১২৪০ ডায়মন্ড – ৬৯৯ টাকা')">১২৪০ ডায়মন্ড – ৬৯৯ টাকা</div>
+<div class="box" onclick="selectPack('২৫৩০ ডায়মন্ড – ১৪৫০ টাকা')">২৫৩০ ডায়মন্ড – ১৪৫০ টাকা</div>
+<div class="box" onclick="selectPack('৫০৬০ ডায়মন্ড – ২৯০০ টাকা')">৫০৬০ ডায়মন্ড – ২৯০০ টাকা</div>
+<div class="box" onclick="selectPack('১০১২০ ডায়মন্ড – ৬০০০ টাকা')">১০১২০ ডায়মন্ড – ৬০০০ টাকা</div>
+
+<div class="section-title">ইভো এক্সেস</div>
+<div class="box" onclick="selectPack('৩ দিন – ৬৯ টাকা')">৩ দিন – ৬৯ টাকা</div>
+<div class="box" onclick="selectPack('৭ দিন – ১১০ টাকা')">৭ দিন – ১১০ টাকা</div>
+<div class="box" onclick="selectPack('৩০ দিন – ২৮৭ টাকা')">৩০ দিন – ২৮৭ টাকা</div>
+
+<div class="section-title">এয়ারড্রপ</div>
+<div class="box" onclick="selectPack('০.৯৯$ – ৮০ টাকা')">০.৯৯$ – ৮০ টাকা</div>
+<div class="box" onclick="selectPack('১.৯৯$ – ১৮০ টাকা')">১.৯৯$ – ১৮০ টাকা</div>
+<div class="box" onclick="selectPack('২.৯৯$ – ২৮০ টাকা')">২.৯৯$ – ২৮০ টাকা</div>
+<div class="box" onclick="selectPack('৩.৯৯$ – ৩৮০ টাকা')">৩.৯৯$ – ৩৮০ টাকা</div>
+
+<div class="section-title">ইন্দোনেশিয়া সার্ভার</div>
+<div class="box" onclick="selectPack('৫ ডায়মন্ড – ১৫ টাকা')">৫ ডায়মন্ড – ১৫ টাকা</div>
+<div class="box" onclick="selectPack('৫০ ডায়মন্ড – ৬০ টাকা')">৫০ ডায়মন্ড – ৬০ টাকা</div>
+<div class="box" onclick="selectPack('৭০ ডায়মন্ড – ৮০ টাকা')">৭০ ডায়মন্ড – ৮০ টাকা</div>
+<div class="box" onclick="selectPack('১৪০ ডায়মন্ড – ১৭০ টাকা')">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
+<div class="box" onclick="selectPack('৩৫৫ ডায়মন্ড – ৪৪০ টাকা')">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
+<div class="box" onclick="selectPack('৭২০ ডায়মন্ড – ৮৩০ টাকা')">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
+<div class="box" onclick="selectPack('১৪৪০ ডায়মন্ড – ১৮৯০ টাকা')">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
+<div class="box" onclick="selectPack('Level Up Pass – ১৭০ টাকা')">Level Up Pass – ১৭০ টাকা</div>
+<div class="box" onclick="selectPack('Weekly – ২৫৯ টাকা')">Weekly – ২৫৯ টাকা</div>
+<div class="box" onclick="selectPack('Monthly – ৮৯৯ টাকা')">Monthly – ৮৯৯ টাকা</div>
+<div class="box" onclick="selectPack('BP Card – ৩৯৯ টাকা')">BP Card – ৩৯৯ টাকা</div>
+
+<button onclick="order()">✅ অর্ডার করুন</button>
+
+<div class="success" id="successMsg"></div>
+
+<div style="margin-top:20px;">
+  <a href="https://t.me/BDTOPUPCOM24" target="_blank">
+    <button style="background:#1976d2;">টপআপ এর যেকোন সমস্যার সমাধান নিন</button>
+  </a>
+</div>
 
 <script>
-  function copyNumber() {
-    const text = document.getElementById("payNum").innerText;
+  function selectPack(text) {
+    document.getElementById("selectedPack").value = text;
+  }
+
+  function copy(text) {
     navigator.clipboard.writeText(text);
-    alert("নাম্বার কপি হয়েছে: " + text);
+    alert("পেমেন্ট নাম্বার কপি হয়েছে: " + text);
   }
 
-  function placeOrder() {
-    const uid = document.getElementById("uid").value;
-    const diamond = document.getElementById("diamond").value;
-    const amount = document.getElementById("amount").value;
-    const trxid = document.getElementById("trxid").value;
-    const server = document.getElementById("server").value;
-
-    const message = `✅ নতুন অর্ডার
-UID: ${uid}
-প্যাকেজ: ${diamond}
-টাকা: ${amount}
-TrxID: ${trxid}
-Server: ${server}`;
-
-    const token = "<YOUR_BOT_ID>" + ":" + "<YOUR_BOT_TOKEN>";
-    const chatId = "6108340963";
-
-    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: message })
-    }).then(res => {
-      if (res.ok) {
-  document.getElementById("successBox").style.display = "block";
-  const history = JSON.parse(localStorage.getItem("orderHistory") || "[]");
-  history.push({ uid, diamond, amount, trxid, server, time: new Date().toLocaleString() });
-  localStorage.setItem("orderHistory", JSON.stringify(history));
-  loadOrderHistory();
-        document.getElementById("successBox").style.display = "block";
-      }
-    });
-  }
-
-function toggleMode() {
-  const body = document.body;
-  if (body.style.background === "black") {
-    body.style.background = "";
-    body.style.color = "";
-  } else {
-    body.style.background = "black";
-    body.style.color = "white";
-  }
-}
-
-// Auto Friday offer
-document.addEventListener("DOMContentLoaded", () => {
-  const today = new Date().getDay();
-  if (today === 5) {
-    const diamondDropdown = document.getElementById("diamond");
-    for (let i = 0; i < diamondDropdown.options.length; i++) {
-      if (diamondDropdown.options[i].text.includes("উইকলি – ১৩০ টাকা")) {
-        diamondDropdown.options[i].text = "উইকলি – ৮০ টাকা (শুক্রবার অফার)";
-      }
+  function order() {
+    const uid = document.getElementById("uid").value.trim();
+    const trxid = document.getElementById("trxid").value.trim();
+    const pack = document.getElementById("selectedPack").value.trim();
+    if (!uid || !trxid || !pack) {
+      alert("UID, TrxID ও প্যাকেজ সিলেক্ট করতে হবে!");
+      return;
     }
+    document.getElementById("successMsg").innerHTML = 
+      `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>আপনার গেমে ডায়মন্ড পৌঁছে যাবে ইনশাআল্লাহ।`;
+    document.getElementById("successMsg").style.display = "block";
   }
 
-  loadOrderHistory();
-});
-
-function loadOrderHistory() {
-  const history = JSON.parse(localStorage.getItem("orderHistory") || "[]").reverse();
-  const historyList = document.getElementById("historyList");
-  if (!history.length) {
-    historyList.innerHTML = "এখনও কোনো অর্ডার পাওয়া যায়নি।";
-    return;
+  if (new Date().getDay() === 5) {
+    document.getElementById("fridayBox").style.display = "block";
   }
-  historyList.innerHTML = history.map(o => `
-    <div style='margin-bottom:10px;padding:10px;border-radius:6px;background:#fff;color:#000'>
-      <b>UID:</b> ${o.uid}<br>
-      <b>প্যাকেজ:</b> ${o.diamond}<br>
-      <b>টাকা:</b> ${o.amount}<br>
-      <b>TrxID:</b> ${o.trxid}<br>
-      <b>Server:</b> ${o.server}<br>
-      <small>${o.time}</small>
-    </div>
-  `).join("");
-}
-
 </script>
 
 </body>
