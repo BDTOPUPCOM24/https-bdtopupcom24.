@@ -119,6 +119,10 @@
 <button onclick="order()">✅ অর্ডার করুন</button>
 
 <div class="success" id="successMsg"></div>
+<div id="warningMsg" class="warn" style="display:none;"></div>
+
+<div class="section-title">আপনার অর্ডার হিস্টোরি</div>
+<div id="orderHistory" style="text-align:left; max-width:95%; margin:auto; background:#fff; padding:10px; border-radius:10px; border:1px solid #ccc;"></div>
 
 <div style="margin-top:20px;">
   <a href="https://t.me/BDTOPUPCOM24" target="_blank">
@@ -136,14 +140,33 @@
     alert("পেমেন্ট নাম্বার কপি হয়েছে: " + text);
   }
 
+  function displayOrderHistory() {
+    let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
+    let historyHtml = "";
+    allOrders.forEach((order, index) => {
+      historyHtml += `<div style="background:#e3f2fd; margin:5px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">📝 ${index + 1}. UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date}<br></div>`;
+    });
+    document.getElementById("orderHistory").innerHTML = historyHtml || "আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।";
+  }
+
   function order() {
     const uid = document.getElementById("uid").value.trim();
     const trxid = document.getElementById("trxid").value.trim();
     const pack = document.getElementById("selectedPack").value.trim();
+
     if (!uid || !trxid || !pack) {
       alert("UID, TrxID ও প্যাকেজ সিলেক্ট করতে হবে!");
       return;
     }
+
+    const trxKey = `used_trx_${trxid}`;
+    if (localStorage.getItem(trxKey)) {
+      document.getElementById("warningMsg").style.display = "block";
+      document.getElementById("warningMsg").innerText =
+        "⚠️ এই TrxID দিয়ে ইতিমধ্যেই অর্ডার হয়েছে! দয়া করে নতুন TrxID ব্যবহার করুন।";
+      return;
+    }
+    localStorage.setItem(trxKey, "used");
 
     const today = new Date().toISOString().slice(0, 10);
     const offerKey = `special_weekly_${uid}_${today}`;
@@ -156,20 +179,33 @@
     }
 
     document.getElementById("successMsg").innerHTML = 
-      `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>আপনার গেমে ডায়মন্ড পৌঁছে যাবে ইনশাআল্লাহ।`;
+      `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে আপনার গেমে ডায়মন্ড পৌঁছে যাবে।`;
     document.getElementById("successMsg").style.display = "block";
+
+    const orderData = {
+      uid: uid,
+      trxid: trxid,
+      pack: pack,
+      date: new Date().toLocaleString()
+    };
+    let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
+    allOrders.push(orderData);
+    localStorage.setItem("allOrders", JSON.stringify(allOrders));
+    displayOrderHistory();
 
     const tokenPart1 = "7786024985";
     const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const botToken = tokenPart1 + ":" + tokenPart2;
     const chatId = "6108340963";
-    const message = `✅ নতুন অর্ডার:\\nUID: ${uid}\\nTrxID: ${trxid}\\nPackage: ${pack}`;
+    const message = `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: chatId, text: message })
     });
   }
+
+  window.onload = displayOrderHistory;
 </script>
 
 </body>
