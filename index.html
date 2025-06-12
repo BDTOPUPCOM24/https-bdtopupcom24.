@@ -68,7 +68,7 @@
 
 <div class="section-title">স্পেশাল অফার</div>
 <div class="box" style="background:#fff0f5; border:2px solid #ff4081; color:#b4004e; font-weight:bold;"
-     onclick="selectPack('Special Weekly – ৮০ টাকা')">
+     onclick="selectPack('Special Weekly – ১০০ টাকা')">
   🎁 Special Weekly – ১০০ টাকা (প্রতিদিন ১ বার মাত্র)
 </div>
 
@@ -83,10 +83,10 @@
 <div class="box" onclick="selectPack('৫০৬০ ডায়মন্ড – ২৯০০ টাকা')">৫০৬০ ডায়মন্ড – ২৯০০ টাকা</div>
 <div class="box" onclick="selectPack('১০১২০ ডায়মন্ড – ৬০০০ টাকা')">১০১২০ ডায়মন্ড – ৬০০০ টাকা</div>
 
-<div class="section-title">উইকলি / মাসিক / লেভেল আপ</div>
+<div class="section-title">উইকলি / মান্থলি প্যাকেজ  / লেভেল আপ</div>
 <div class="box" onclick="selectPack('উইকলি লাইট – ৩০ টাকা')">উইকলি লাইট – ৩০ টাকা</div>
 <div class="box" onclick="selectPack('উইকলি – ১৫০ টাকা')">উইকলি – ১৩০ টাকা</div>
-<div class="box" onclick="selectPack('মাটলি পাশ – ৭০০ টাকা')">মাটলি পাশ – ৭০০ টাকা</div>
+<div class="box" onclick="selectPack('মান্থলি প্যাকেজ  – ৭০০ টাকা')">মান্থলি প্যাকেজ  – ৭০০ টাকা</div>
 <div class="box" onclick="selectPack('Level Up Pass – ৩৫০ টাকা')">Level Up Pass – ৩৫০ টাকা</div>
 
 <div class="section-title">এয়ারড্রপ</div>
@@ -197,7 +197,7 @@
     const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const botToken = tokenPart1 + ":" + tokenPart2;
     const chatId = "6108340963";
-    const message = `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
+    const message = `✅ অর্ডার এসেছে বস:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
