@@ -51,6 +51,21 @@
       cursor: pointer;
     }
     button:hover { background: #0097a7; }
+    .complete-btn {
+      background: #28a745;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+    .completed-order {
+      background: #d4edda !important;
+      border-color: #28a745 !important;
+      color: #155724 !important;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -86,7 +101,7 @@
 <div class="section-title">উইকলি / মান্থলি / লেভেল আপ</div>
 <div class="box" onclick="selectPack('উইকলি লাইট – ৩৫ টাকা')">উইকলি লাইট – ৩৫ টাকা</div>
 <div class="box" onclick="selectPack('উইকলি – ১৫০ টাকা')">উইকলি – ১৫০ টাকা</div>
-<div class="box" onclick="selectPack('মান্থলি প্যাকেজ  –৬৮০ টাকা')">মান্থলি প্যাকেজ  – ৬৮০ টাকা</div>
+<div class="box" onclick="selectPack('মান্থলি প্যাকেজ  –৭৪০ টাকা')">মান্থলি প্যাকেজ  – ৭৪০ টাকা</div>
 <div class="box" onclick="selectPack('Level Up Pass – 350 টাকা')">Level Up Pass – ৩৫০ টাকা</div>
 
 <div class="section-title">এয়ারড্রপ</div>
@@ -112,33 +127,9 @@
 <div class="box" onclick="selectPack('Weekly – ২৫৯ টাকা')">Weekly – ২৫৯ টাকা</div>
 <div class="box" onclick="selectPack('Monthly – ৮৯৯ টাকা')">Monthly – ৮৯৯ টাকা</div>
 <div class="box" onclick="selectPack('BP Card – ৩৯৯ টাকা')">BP Card – ৩৯৯ টাকা</div>
-<div class="section-title">Garena Shell (MY)</div>
-<div class="box" style="background:#fff3f3; font-weight:bold; color:#880e4f;">
-  পাইকারি মূল্য তালিকা<br>
-  -------------------------<br>
-  𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫𝟬 টাকা (অফার প্রাইস)<br><br>
-</div>
 
-<div class="box" onclick="selectPack('Garena Shell 290 – 360 টাকা'stockout)">🪽 290 Shell stockout – 360 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 390 – 475 টাকা'stockout)">🪽 390 Shell – stockout475 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 500 – 610 টাকা'stockout)">🪽 500 Shell – stockout610 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 650 – 765 টাকা')">🪽 650 Shell – 765 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 725 – 850 টাকা')">🪽 725 Shell – 850 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 1000 – 1170 টাকা')">🪽 1000 Shell – 1170 টাকা</div>
-<div class="box" onclick="selectPack('Garena Shell 1300 – 1510 টাকা')">🪽 1300 Shell – 1510 টাকা</div>
-
-<div class="box" style="background:#fff8e1; color:#8d6e63;">
-  🆕 নতুন সেলারদের জন্য তথ্য:<br>
-  ৩৯০ বা তার বেশি Shell অর্ডারে<br>
-  যেকোনো সাহায্যের জন্য আমরা সাথে আছি। 😊
-</div>
-
-  <div class="section-title">💖 Free Fire UID Like</div>
-<div class="box" onclick="selectPack('১০০ লাইক – ২০ টাকা')">১০০ লাইক – ২০ টাকা</div>
-<div class="box" onclick="selectPack('১০০০ লাইক – ৯০ টাকা')">১০০০ লাইক – ৯০ টাকা</div>
-  
 <div class="section-title">বিকাশ/নগদ নাম্বার</div>
-<div class="box" onclick="copy('01608603364')">01608603364 (বিকাশ এ পেমেন্ট করুন নগদ send Money করুন)</div>
+<div class="box" onclick="copy('01822769871')">01822769871 (Send Money করুন)</div>
 
 <button onclick="order()">✅ অর্ডার করুন</button>
 
@@ -160,7 +151,7 @@
     </button>
   </a>
   </div>
-  <script>
+<script>
   function selectPack(text) {
     document.getElementById("selectedPack").value = text;
   }
@@ -174,9 +165,22 @@
     let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
     let historyHtml = "";
     allOrders.forEach((order, index) => {
-      historyHtml += `<div style="background:#e3f2fd; margin:5px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">📝 ${index + 1}. UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date}<br></div>`;
+      const isCompleted = order.completed || false;
+      historyHtml += `
+        <div class="box ${isCompleted ? "completed-order" : ""}">
+          📝 ${index + 1}. UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date}
+          ${isCompleted ? "<span style='float:right; font-weight:bold; color:#28a745;'>✅ Completed</span>" : `<button class="complete-btn" onclick="markComplete(${index})">✅ Complete</button>`}
+          <div style="clear:both;"></div>
+        </div>`;
     });
     document.getElementById("orderHistory").innerHTML = historyHtml || "আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।";
+  }
+
+  function markComplete(index) {
+    let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
+    allOrders[index].completed = true;
+    localStorage.setItem("allOrders", JSON.stringify(allOrders));
+    displayOrderHistory();
   }
 
   function order() {
@@ -184,8 +188,17 @@
     const trxid = document.getElementById("trxid").value.trim();
     const pack = document.getElementById("selectedPack").value.trim();
 
+    // Validation
     if (!uid || !trxid || !pack) {
       alert("UID, TrxID ও প্যাকেজ সিলেক্ট করতে হবে!");
+      return;
+    }
+    if (!/^\d+$/.test(uid)) {
+      alert("UID শুধুমাত্র সংখ্যা হতে হবে!");
+      return;
+    }
+    if (trxid.length < 10) {
+      alert("TrxID কমপক্ষে ১০ অক্ষরের হতে হবে!");
       return;
     }
 
@@ -211,18 +224,21 @@
     document.getElementById("successMsg").innerHTML = 
       `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে আপনার গেমে ডায়মন্ড পৌঁছে যাবে।`;
     document.getElementById("successMsg").style.display = "block";
+    document.getElementById("warningMsg").style.display = "none";
 
     const orderData = {
       uid: uid,
       trxid: trxid,
       pack: pack,
-      date: new Date().toLocaleString()
+      date: new Date().toLocaleString(),
+      completed: false
     };
     let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
     allOrders.push(orderData);
     localStorage.setItem("allOrders", JSON.stringify(allOrders));
     displayOrderHistory();
 
+    // Telegram notification (optional)
     const tokenPart1 = "7786024985";
     const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const botToken = tokenPart1 + ":" + tokenPart2;
