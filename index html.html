@@ -15,6 +15,7 @@
       width: 90%;
       border-radius: 8px;
       cursor: pointer;
+      user-select: none;
     }
     .box:hover { background: #e0f7fa; }
     .warn {
@@ -24,6 +25,7 @@
       border-radius: 6px;
       margin-top: 10px;
       border: 1px solid #ffeeba;
+      display: none;
     }
     .success {
       background: #d4edda;
@@ -31,8 +33,8 @@
       padding: 10px;
       border-radius: 6px;
       margin-top: 10px;
-      display: none;
       border: 1px solid #c3e6cb;
+      display: none;
     }
     .input-box {
       padding: 8px;
@@ -40,6 +42,7 @@
       width: 80%;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
     button {
       padding: 10px 20px;
@@ -49,21 +52,26 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
     }
     button:hover { background: #0097a7; }
-    .complete-btn {
-      background: #28a745;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      float: right;
+    #orderHistory {
+      text-align: left;
+      max-width: 95%;
+      margin: auto;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 14px;
     }
-    .completed-order {
-      background: #d4edda !important;
-      border-color: #28a745 !important;
-      color: #155724 !important;
+    /* Completed order style */
+    .order-completed {
+      background-color: #d1e7dd !important;
+      border-color: #badbcc !important;
+      color: #0f5132 !important;
       font-weight: bold;
     }
   </style>
@@ -73,18 +81,18 @@
 <h3 style="color:green;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
 <h2 style="color:#007bff;">BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</h2>
 
-<div class="warn">
-  ⚠️ সতর্কতা: প্রথমে টাকা Send করে তারপর সঠিকভাবে UID ও TrxID দিয়ে অর্ডার করুন। ভুল দিলে অর্ডার বাতিল হতে পারে।
-</div>
+<div class="warn" id="warningMsg"></div>
+<div class="success" id="successMsg"></div>
 
 <input class="input-box" placeholder="আপনার Game UID" id="uid" />
-<input class="input-box" placeholder="TrxID" id="trxid" />
+<input class="input-box" placeholder="৮ অক্ষরের TrxID" id="trxid" maxlength="8" />
 <input class="input-box" id="selectedPack" placeholder="আপনার প্যাকেজ অটো বসবে" readonly />
 
+<!-- প্যাকেজ লিস্ট শুরু -->
 <div class="section-title">স্পেশাল অফার</div>
 <div class="box" style="background:#fff0f5; border:2px solid #ff4081; color:#b4004e; font-weight:bold;"
      onclick="selectPack('Special Weekly – ১০০ টাকা')">
-  🎁 Special Weekly – ১০০ টাকা (প্রতিদিন ১ বার মাত্র)সময়িক ভাবে বন্ধ আছে
+  🎁 Special Weekly – ১০০ টাকা (প্রতিদিন ১ বার মাত্র) সময়িক ভাবে বন্ধ আছে
 </div>
 
 <div class="section-title">বাংলাদেশ সার্ভার</div>
@@ -101,8 +109,8 @@
 <div class="section-title">উইকলি / মান্থলি / লেভেল আপ</div>
 <div class="box" onclick="selectPack('উইকলি লাইট – ৩৫ টাকা')">উইকলি লাইট – ৩৫ টাকা</div>
 <div class="box" onclick="selectPack('উইকলি – ১৫০ টাকা')">উইকলি – ১৫০ টাকা</div>
-<div class="box" onclick="selectPack('মান্থলি প্যাকেজ  –৭৪০ টাকা')">মান্থলি প্যাকেজ  – ৭৪০ টাকা</div>
-<div class="box" onclick="selectPack('Level Up Pass – 350 টাকা')">Level Up Pass – ৩৫০ টাকা</div>
+<div class="box" onclick="selectPack('মান্থলি প্যাকেজ – ৬৮০ টাকা')">মান্থলি প্যাকেজ – ৬৮০ টাকা</div>
+<div class="box" onclick="selectPack('Level Up Pass – ৩৫০ টাকা')">Level Up Pass – ৩৫০ টাকা</div>
 
 <div class="section-title">এয়ারড্রপ</div>
 <div class="box" onclick="selectPack('০.৯৯$ – ১০০ টাকা')">০.৯৯$ – ১০০ টাকা</div>
@@ -128,32 +136,64 @@
 <div class="box" onclick="selectPack('Monthly – ৮৯৯ টাকা')">Monthly – ৮৯৯ টাকা</div>
 <div class="box" onclick="selectPack('BP Card – ৩৯৯ টাকা')">BP Card – ৩৯৯ টাকা</div>
 
+<div class="section-title">Garena Shell (MY)</div>
+<div class="box" style="background:#fff3f3; font-weight:bold; color:#880e4f;">
+  পাইকারি মূল্য তালিকা<br>
+  -------------------------<br>
+  𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫০ টাকা (অফার প্রাইস)<br><br>
+</div>
+
+<div class="box" onclick="selectPack('Garena Shell 290 – 360 টাকা')">🪽 290 Shell – 360 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 390 – 475 টাকা')">🪽 390 Shell – 475 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 500 – 610 টাকা')">🪽 500 Shell – 610 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 650 – 765 টাকা')">🪽 650 Shell – 765 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 725 – 850 টাকা')">🪽 725 Shell – 850 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 1000 – 1170 টাকা')">🪽 1000 Shell – 1170 টাকা</div>
+<div class="box" onclick="selectPack('Garena Shell 1300 – 1510 টাকা')">🪽 1300 Shell – 1510 টাকা</div>
+
+<div class="box" style="background:#fff8e1; color:#8d6e63;">
+  🆕 নতুন সেলারদের জন্য তথ্য:<br>
+  ৩৯০ বা তার বেশি Shell অর্ডারে<br>
+  যেকোনো সাহায্যের জন্য আমরা সাথে আছি। 😊
+</div>
+
+<div class="section-title">💖 Free Fire UID Like</div>
+<div class="box" onclick="selectPack('১০০ লাইক – ২০ টাকা')">১০০ লাইক – ২০ টাকা</div>
+<div class="box" onclick="selectPack('১০০০ লাইক – ৯০ টাকা')">১০০০ লাইক – ৯০ টাকা</div>
+
 <div class="section-title">বিকাশ/নগদ নাম্বার</div>
-<div class="box" onclick="copy('01822769871')">01822769871 (Send Money করুন)</div>
+<div class="box" onclick="copy('01608603364')">01608603364 (বিকাশ এ পেমেন্ট করুন, নগদ send Money করুন)</div>
 
 <button onclick="order()">✅ অর্ডার করুন</button>
 
-<div class="success" id="successMsg"></div>
-<div id="warningMsg" class="warn" style="display:none;"></div>
+<hr style="margin: 30px 0;">
+
+<h3>অর্ডার চেক করুন</h3>
+<input class="input-box" placeholder="আপনার TrxID দিয়ে সার্চ করুন" id="searchTrxid" maxlength="8" />
+<button onclick="checkOrder()">🔍 চেক করুন</button>
+
+<div id="checkResult" style="margin-top:15px; font-size:16px; font-weight:bold;"></div>
 
 <div class="section-title">আপনার অর্ডার হিস্টোরি</div>
-<div id="orderHistory" style="text-align:left; max-width:95%; margin:auto; background:#fff; padding:10px; border-radius:10px; border:1px solid #ccc;"></div>
+<div id="orderHistory"></div>
 
 <div style="margin-top:20px;">
   <a href="https://t.me/BDTOPUPCOM24" target="_blank">
-    <button style="background:#1976d2;">টপআপ এর যেকোন সমস্যার সমাধান নিন হেল্প লাইন ২৪/৭ঘন্টা চালু থাকবে</button>
+    <button style="background:#1976d2;">টপআপ এর যেকোন সমস্যার সমাধান নিন হেল্প লাইন ২৪/৭ ঘন্টা চালু থাকবে</button>
   </a>
 </div>
-  <div style="text-align:center; margin-top:15px;">
+<div style="text-align:center; margin-top:15px;">
   <a href="https://t.me/BDTOPUPCOM247" target="_blank">
     <button style="background:linear-gradient(to right, #673ab7, #512da8); color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">
       📢 আমাদের অফিসিয়াল Telegram চ্যানেল — BDTOPUPCOM247
     </button>
   </a>
-  </div>
+</div>
+
 <script>
   function selectPack(text) {
     document.getElementById("selectedPack").value = text;
+    clearMessages();
   }
 
   function copy(text) {
@@ -161,44 +201,37 @@
     alert("পেমেন্ট নাম্বার কপি হয়েছে: " + text);
   }
 
+  function clearMessages() {
+    document.getElementById("warningMsg").style.display = "none";
+    document.getElementById("successMsg").style.display = "none";
+    document.getElementById("checkResult").innerText = "";
+  }
+
   function displayOrderHistory() {
     let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
     let historyHtml = "";
     allOrders.forEach((order, index) => {
-      const isCompleted = order.completed || false;
-      historyHtml += `
-        <div class="box ${isCompleted ? "completed-order" : ""}">
-          📝 ${index + 1}. UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date}
-          ${isCompleted ? "<span style='float:right; font-weight:bold; color:#28a745;'>✅ Completed</span>" : `<button class="complete-btn" onclick="markComplete(${index})">✅ Complete</button>`}
-          <div style="clear:both;"></div>
-        </div>`;
+      let completedClass = order.completed ? "order-completed" : "";
+      historyHtml += `<div class="${completedClass}" style="background:#e3f2fd; margin:5px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
+        📝 ${index + 1}. UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date}${order.completed ? ' ✅ Completed' : ''}
+      </div>`;
     });
     document.getElementById("orderHistory").innerHTML = historyHtml || "আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।";
   }
 
-  function markComplete(index) {
-    let allOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
-    allOrders[index].completed = true;
-    localStorage.setItem("allOrders", JSON.stringify(allOrders));
-    displayOrderHistory();
-  }
-
   function order() {
+    clearMessages();
     const uid = document.getElementById("uid").value.trim();
     const trxid = document.getElementById("trxid").value.trim();
     const pack = document.getElementById("selectedPack").value.trim();
 
-    // Validation
     if (!uid || !trxid || !pack) {
       alert("UID, TrxID ও প্যাকেজ সিলেক্ট করতে হবে!");
       return;
     }
-    if (!/^\d+$/.test(uid)) {
-      alert("UID শুধুমাত্র সংখ্যা হতে হবে!");
-      return;
-    }
-    if (trxid.length < 10) {
-      alert("TrxID কমপক্ষে ১০ অক্ষরের হতে হবে!");
+
+    if (trxid.length !== 8) {
+      alert("TrxID অবশ্যই ৮ অক্ষরের হতে হবে!");
       return;
     }
 
@@ -211,6 +244,7 @@
     }
     localStorage.setItem(trxKey, "used");
 
+    // Special Weekly check
     const today = new Date().toISOString().slice(0, 10);
     const offerKey = `special_weekly_${uid}_${today}`;
     if (pack.includes("Special Weekly") && localStorage.getItem(offerKey)) {
@@ -221,11 +255,7 @@
       localStorage.setItem(offerKey, "used");
     }
 
-    document.getElementById("successMsg").innerHTML = 
-      `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে আপনার গেমে ডায়মন্ড পৌঁছে যাবে।`;
-    document.getElementById("successMsg").style.display = "block";
-    document.getElementById("warningMsg").style.display = "none";
-
+    // Prepare order data
     const orderData = {
       uid: uid,
       trxid: trxid,
@@ -238,21 +268,27 @@
     localStorage.setItem("allOrders", JSON.stringify(allOrders));
     displayOrderHistory();
 
-    // Telegram notification (optional)
+    // Show success message
+    document.getElementById("successMsg").innerHTML = 
+      `✅ অর্ডার সফল হয়েছে!<br>UID: ${uid}<br>প্যাকেজ: ${pack}<br>ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে আপনার গেমে ডায়মন্ড পৌঁছে যাবে।`;
+    document.getElementById("successMsg").style.display = "block";
+
+    // Send Telegram notification
     const tokenPart1 = "7786024985";
     const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const botToken = tokenPart1 + ":" + tokenPart2;
     const chatId = "6108340963";
-    const message = `✅বস অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
+    const message = `✅ বস অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: chatId, text: message })
     });
-  }
 
-  window.onload = displayOrderHistory;
-</script>
-
-</body>
-</html>
+    // Auto mark complete after 30 seconds
+    setTimeout(() => {
+      let updatedOrders = JSON.parse(localStorage.getItem("allOrders") || "[]");
+      const orderIndex = updatedOrders.findIndex(o => o.trxid === trxid);
+      if (orderIndex !== -1) {
+        updatedOrders[orderIndex].completed = true;
+        localStorage.setItem("
