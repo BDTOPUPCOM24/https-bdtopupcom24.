@@ -73,6 +73,19 @@
       color: green;
       font-weight: bold;
     }
+    .footer-links {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+    .footer-links a {
+      color: #00bcd4;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -104,13 +117,6 @@
 <div class="box" onclick="selectPack('৫০৬০ ডায়মন্ড – ২৯৫০ টাকা')">৫০৬০ ডায়মন্ড – ২৯৫০ টাকা</div>
 <div class="box" onclick="selectPack('১০১২০ ডায়মন্ড – ৬১০০ টাকা')">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
 
-<!-- বাকী প্যাকেজগুলো পরবর্তী অংশে দিবো -->
-
-<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
-<button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
-
-<div class="section-title">আপনার অর্ডার হিস্টোরি</div>
-<div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 <div class="section-title">উইকলি / মান্থলি / লেভেল আপ</div>
 <div class="box" onclick="selectPack('উইকলি লাইট – ৩৫ টাকা')">উইকলি লাইট – ৩৫ টাকা</div>
 <div class="box" onclick="selectPack('উইকলি – ১৫০ টাকা')">উইকলি – ১৫০ টাকা</div>
@@ -163,8 +169,18 @@
 <div class="section-title">বিকাশ/নগদ নাম্বার</div>
 <div class="box" onclick="copy('01608603364')">01608603364 (বিকাশ এ পেমেন্ট করুন, নগদ send Money করুন)</div>
 
-</body>
-</html>
+<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
+<button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
+
+<div class="section-title">আপনার অর্ডার হিস্টোরি</div>
+<div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
+
+<div class="footer-links">
+  <p>আমাদের টেলিগ্রাম সাপোর্ট এবং চ্যানেল:</p>
+  <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24 (Support)</a> | 
+  <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247 (Channel)</a>
+</div>
+
 <script>
   const uidInput = document.getElementById('uid');
   const trxInput = document.getElementById('trxid');
@@ -190,11 +206,7 @@
     const uid = uidInput.value.trim();
     const trx = trxInput.value.trim();
     const pack = packInput.value.trim();
-    if(uid !== '' && trx !== '' && pack !== '') {
-      orderBtn.disabled = false;
-    } else {
-      orderBtn.disabled = true;
-    }
+    orderBtn.disabled = !(uid && trx && pack);
   }
 
   uidInput.addEventListener('input', validateInputs);
@@ -226,14 +238,12 @@
       return;
     }
 
-    // Check if trxid already used
     if(localStorage.getItem('used_trx_' + trxid)) {
       warningMsg.style.display = 'block';
       warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
       return;
     }
 
-    // Save order
     const order = {
       uid,
       trxid,
@@ -250,7 +260,6 @@
     successMsg.style.display = 'block';
     successMsg.textContent = `অর্ডার সফলভাবে গ্রহণ করা হয়েছে!\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
 
-    // Clear inputs
     uidInput.value = '';
     trxInput.value = '';
     packInput.value = '';
@@ -259,12 +268,11 @@
 
     displayOrderHistory();
 
-    // Auto mark order complete after 30 seconds
     setTimeout(() => {
       completeOrder(trxid);
     }, 30000);
 
-    // Telegram notification (optional)
+    // Telegram notification
     const tokenPart1 = "7786024985";
     const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const botToken = tokenPart1 + ":" + tokenPart2;
@@ -303,7 +311,8 @@
     URL.revokeObjectURL(url);
   }
 
-  // Initialize order history on page load
   displayOrderHistory();
-
 </script>
+
+</body>
+</html>
