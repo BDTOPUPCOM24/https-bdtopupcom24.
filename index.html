@@ -5,242 +5,321 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</title>
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
-    body { font-family: 'Arial', sans-serif; background: #f2f2f2; padding: 15px; text-align: center; }
-    .section-title { font-size: 20px; margin-top: 25px; font-weight: bold; color: #333; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f2f2f2;
+      margin: 0; padding: 20px;
+      text-align: center;
+      color: #333;
+    }
+    h3 {
+      color: #007bff;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .tab {
+      overflow: hidden;
+      background-color: #00bcd4;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tab button {
+      background-color: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 12px 20px;
+      transition: background-color 0.3s ease;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 10px 10px 0 0;
+      margin: 0 4px;
+    }
+    .tab button:hover {
+      background-color: #0097a7;
+    }
+    .tab button.active {
+      background-color: #007bff;
+      font-weight: bolder;
+    }
+    .tabcontent {
+      display: none;
+      background: white;
+      border-radius: 0 10px 10px 10px;
+      padding: 15px 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 0 auto 30px auto;
+      text-align: left;
+      font-size: 15px;
+    }
     .box {
-      background: #fff;
+      background: #e3f2fd;
       border: 2px solid #00bcd4;
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .box:hover {
+      background-color: #b2ebf2;
+    }
+    .box.selected {
+      background-color: #00bcd4;
+      color: white;
+      font-weight: bold;
+      border-color: #007bff;
+    }
+    input[type=text] {
+      width: 90%;
       padding: 10px;
-      margin: 5px auto;
-      width: 95%;
+      margin: 8px 0 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button#orderBtn {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .box:hover { background: #e0f7fa; }
-    .warn, .success {
-      padding: 10px;
-      border-radius: 6px;
+      transition: background-color 0.3s ease;
       margin-top: 10px;
-      display: none;
-      white-space: pre-line;
+      width: 200px;
     }
-    .warn {
+    button#orderBtn:disabled {
+      background-color: #7ec3db;
+      cursor: not-allowed;
+    }
+    #warningMsg, #successMsg {
+      max-width: 500px;
+      margin: 15px auto;
+      padding: 12px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      white-space: pre-line;
+      display: none;
+    }
+    #warningMsg {
       background: #fff3cd;
       color: #856404;
       border: 1px solid #ffeeba;
     }
-    .success {
+    #successMsg {
       background: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
     }
-    .input-box {
-      padding: 10px;
-      margin: 8px;
-      width: 90%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      background: #00bcd4;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover { background: #0097a7; }
     #orderHistory {
+      max-width: 600px;
+      margin: 0 auto 40px auto;
       text-align: left;
-      max-width: 96%;
-      margin: 20px auto;
-      background: #fff;
-      padding: 10px;
+      background: white;
+      padding: 15px;
       border-radius: 10px;
-      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       max-height: 300px;
       overflow-y: auto;
       font-size: 14px;
+      color: #333;
     }
     .order-completed {
       color: green;
       font-weight: bold;
     }
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 20px;
-      justify-content: center;
-    }
-    .tab {
-      background: #ddd;
-      padding: 10px 15px;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
+    .order-pending {
+      color: #d39e00;
       font-weight: bold;
     }
-    .tab.active {
-      background: #00bcd4;
-      color: white;
+    #footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
     }
-    .tab-content {
-      display: none;
-      margin-top: 10px;
+    #footer a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 8px;
     }
-    .tab-content.active {
-      display: block;
+    #footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
-<h3 style="color:green;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
-<h2 style="color:#007bff;">BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</h2>
+<h3>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
+<h2>BDTOPUP.COM — বিশ্বস্ত Diamond Topup সার্ভিস</h2>
 
-<div class="warn" id="warningMsg"></div>
-<div class="success" id="successMsg"></div>
+<div id="warningMsg"></div>
+<div id="successMsg"></div>
 
-<input class="input-box" placeholder="আপনার Game UID" id="uid" />
-<input class="input-box" placeholder="TrxID" id="trxid" />
-<input class="input-box" id="selectedPack" placeholder="আপনার প্যাকেজ অটো বসবে" readonly /><!-- tabs ও প্যাকেজ গুলো -->
-<div class="tabs">
-  <div class="tab active" data-tab="bd-server">বাংলাদেশ সার্ভার</div>
-  <div class="tab" data-tab="weekly-monthly">উইকলি / মান্থলি / লেভেল আপ</div>
-  <div class="tab" data-tab="airdrop">এয়ারড্রপ</div>
-  <div class="tab" data-tab="evo">ইভো এক্সেস</div>
-  <div class="tab" data-tab="indonesia-server">ইন্দোনেশিয়া সার্ভার</div>
-  <div class="tab" data-tab="garena-shell">Garena Shell (MY)</div>
-  <div class="tab" data-tab="uid-like">UID Like</div>
+<input type="text" id="uid" placeholder="আপনার Game UID দিন" />
+<input type="text" id="trxid" placeholder="TrxID (Transaction ID)" />
+<input type="text" id="selectedPack" placeholder="আপনার প্যাকেজ সিলেক্ট করুন" readonly />
+
+<div class="tab" id="packageTabs">
+  <button class="tablinks active" onclick="openTab(event, 'Bangladesh')">বাংলাদেশ সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি / মান্থলি</button>
+  <button class="tablinks" onclick="openTab(event, 'Airdrop')">এয়ারড্রপ</button>
+  <button class="tablinks" onclick="openTab(event, 'Evo')">ইভো এক্সেস</button>
+  <button class="tablinks" onclick="openTab(event, 'Indonesia')">ইন্দোনেশিয়া সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Garena')">Garena Shell (MY)</button>
+  <button class="tablinks" onclick="openTab(event, 'UIDLike')">UID Like</button>
 </div>
 
-<div id="bd-server" class="tab-content active">
-  <div class="box" onclick="selectPack('২৫ ডায়মন্ড – ২৫ টাকা')">২৫ ডায়মন্ড – ২৫ টাকা</div>
-  <div class="box" onclick="selectPack('৫০ ডায়মন্ড – ৩৫ টাকা')">৫০ ডায়মন্ড – ৩৫ টাকা</div>
-  <div class="box" onclick="selectPack('১১৫ ডায়মন্ড – ৭৯ টাকা')">১১৫ ডায়মন্ড – ৭৯ টাকা</div>
-  <div class="box" onclick="selectPack('২৪০ ডায়মন্ড – ১৬০ টাকা')">২৪০ ডায়মন্ড – ১৬০ টাকা</div>
-  <div class="box" onclick="selectPack('৬১০ ডায়মন্ড – ৩৮০ টাকা')">৬১০ ডায়মন্ড – ৩৮০ টাকা</div>
-  <div class="box" onclick="selectPack('১২৪০ ডায়মন্ড – ৭৭০ টাকা')">১২৪০ ডায়মন্ড – ৭৭০ টাকা</div>
-  <div class="box" onclick="selectPack('২৫৩০ ডায়মন্ড – ১৫৫০ টাকা')">২৫৩০ ডায়মন্ড – ১৫৫০ টাকা</div>
-  <div class="box" onclick="selectPack('৫০৬০ ডায়মন্ড – ২৯৫০ টাকা')">৫০৬০ ডায়মন্ড – ২৯৫০ টাকা</div>
-  <div class="box" onclick="selectPack('১০১২০ ডায়মন্ড – ৬১০০ টাকা')">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
+<!-- বাংলাদেশ সার্ভার -->
+<div id="Bangladesh" class="tabcontent" style="display:block;">
+  <div class="box" onclick="selectPack(this)">২৫ ডায়মন্ড – ২৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৩৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১১৫ ডায়মন্ড – ৭৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২৪০ ডায়মন্ড – ১৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৬১০ ডায়মন্ড – ৩৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১২৪০ ডায়মন্ড – ৭৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২৫৩০ ডায়মন্ড – ১৫৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০৬০ ডায়মন্ড – ২৯৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
 </div>
 
-<div id="weekly-monthly" class="tab-content">
-  <div class="box" onclick="selectPack('উইকলি লাইট – ৩৫ টাকা')">উইকলি লাইট – ৩৫ টাকা</div>
-  <div class="box" onclick="selectPack('উইকলি – ১৫০ টাকা')">উইকলি – ১৫০ টাকা</div>
-  <div class="box" onclick="selectPack('মান্থলি প্যাকেজ – ৬৮০ টাকা')">মান্থলি প্যাকেজ – ৬৮০ টাকা</div>
-  <div class="box" onclick="selectPack('Level Up Pass – ৩৫০ টাকা')">Level Up Pass – ৩৫০ টাকা</div>
+<!-- উইকলি / মান্থলি -->
+<div id="Weekly" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">উইকলি লাইট – ৩৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">উইকলি – ১৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">মান্থলি প্যাকেজ  – ৬৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Level Up Pass – ৩৫০ টাকা</div>
 </div>
 
-<div id="airdrop" class="tab-content">
-  <div class="box" onclick="selectPack('০.৯৯$ – ১০০ টাকা')">০.৯৯$ – ১০০ টাকা</div>
-  <div class="box" onclick="selectPack('১.৯৯$ – ১৮০ টাকা')">১.৯৯$ – ১৮০ টাকা</div>
-  <div class="box" onclick="selectPack('২.৯৯$ – ২৮০ টাকা')">২.৯৯$ – ২৮০ টাকা</div>
-  <div class="box" onclick="selectPack('৩.৯৯$ – ৩৮০ টাকা')">৩.৯৯$ – ৩৮০ টাকা</div>
+<!-- এয়ারড্রপ -->
+<div id="Airdrop" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">০.৯৯$ – ১০০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১.৯৯$ – ১৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২.৯৯$ – ২৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩.৯৯$ – ৩৮০ টাকা</div>
 </div>
 
-<div id="evo" class="tab-content">
-  <div class="box" onclick="selectPack('৩ দিন ইভো – ৬৯ টাকা')">৩ দিন ইভো – ৬৯ টাকা</div>
-  <div class="box" onclick="selectPack('৭ দিন ইভো – ১১০ টাকা')">৭ দিন ইভো – ১১০ টাকা</div>
-  <div class="box" onclick="selectPack('৩০ দিন ইভো – ২৮৭ টাকা')">৩০ দিন ইভো – ২৮৭ টাকা</div>
+<!-- ইভো এক্সেস -->
+<div id="Evo" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">৩ দিন ইভো – ৬৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭ দিন ইভো – ১১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩০ দিন ইভো – ২৮৭ টাকা</div>
 </div>
 
-<div id="indonesia-server" class="tab-content">
-  <div class="box" onclick="selectPack('৫ ডায়মন্ড – ১৫ টাকা')">৫ ডায়মন্ড – ১৫ টাকা</div>
-  <div class="box" onclick="selectPack('৫০ ডায়মন্ড – ৬০ টাকা')">৫০ ডায়মন্ড – ৬০ টাকা</div>
-  <div class="box" onclick="selectPack('৭০ ডায়মন্ড – ৮০ টাকা')">৭০ ডায়মন্ড – ৮০ টাকা</div>
-  <div class="box" onclick="selectPack('১৪০ ডায়মন্ড – ১৭০ টাকা')">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
-  <div class="box" onclick="selectPack('৩৫৫ ডায়মন্ড – ৪৪০ টাকা')">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
-  <div class="box" onclick="selectPack('৭২০ ডায়মন্ড – ৮৩০ টাকা')">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
-  <div class="box" onclick="selectPack('১৪৪০ ডায়মন্ড – ১৮৯০ টাকা')">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
-  <div class="box" onclick="selectPack('Level Up Pass – ১৭০ টাকা')">Level Up Pass – ১৭০ টাকা</div>
-  <div class="box" onclick="selectPack('Weekly – ২৫৯ টাকা')">Weekly – ২৫৯ টাকা</div>
-  <div class="box" onclick="selectPack('Monthly – ৮৯৯ টাকা')">Monthly – ৮৯৯ টাকা</div>
-  <div class="box" onclick="selectPack('BP Card – ৩৯৯ টাকা')">BP Card – ৩৯৯ টাকা</div>
+<!-- ইন্দোনেশিয়া সার্ভার -->
+<div id="Indonesia" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">৫ ডায়মন্ড – ১৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭০ ডায়মন্ড – ৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Level Up Pass – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Weekly – ২৫৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Monthly – ৮৯৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">BP Card – ৩৯৯ টাকা</div>
 </div>
 
-<div id="garena-shell" class="tab-content">
-  <div class="box" style="background:#fff3f3; font-weight:bold; color:#880e4f; border-color:#880e4f;">
-    পাইকারি মূল্য তালিকা<br>
-    -------------------------<br>
-    𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫০ টাকা (অফার প্রাইস)<br><br>
+<!-- Garena Shell -->
+<div id="Garena" class="tabcontent">
+  <div style="background:#fff3f3; font-weight:bold; color:#880e4f; padding:10px; border-radius:6px; margin-bottom:10px; border:1px solid #880e4f;">
+    পাইকারি মূল্য তালিকা<br>-------------------------<br>
+    𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫০ টাকা (অফার প্রাইস)<br>
   </div>
-  <div class="box" onclick="selectPack('Garena Shell 290 – ৩৬০ টাকা')">🪽 290 Shell – ৩৬০ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 390 – ৪৭৫ টাকা')">🪽 390 Shell – ৪৭৫ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 500 – ৬১০ টাকা')">🪽 500 Shell – ৬১০ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 650 – ৭৬৫ টাকা')">🪽 650 Shell – ৭৬৫ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 725 – ৮৫০ টাকা')">🪽 725 Shell – ৮৫০ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 1000 – ১১৭০ টাকা')">🪽 1000 Shell – ১১৭০ টাকা</div>
-  <div class="box" onclick="selectPack('Garena Shell 1300 – ১৫১০ টাকা')">🪽 1300 Shell – ১৫১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 290 Shell – ৩৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 390 Shell – ৪৭৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 500 Shell – ৬১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 650 Shell – ৭৬৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 725 Shell – ৮৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1000 Shell – ১১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1300 Shell – ১৫১০ টাকা</div>
 </div>
 
-<div id="uid-like" class="tab-content">
-  <div class="box" onclick="selectPack('১০০ লাইক – ২০ টাকা')">১০০ লাইক – ২০ টাকা</div>
-  <div class="box" onclick="selectPack('১০০০ লাইক – ৯০ টাকা')">১০০০ লাইক – ৯০ টাকা</div>
+<!-- UID Like -->
+<div id="UIDLike" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
 </div>
 
 <button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
 <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
-<div class="section-title">আপনার অর্ডার হিস্টোরি</div>
+<div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 
-<div class="section-title">সাপোর্ট ও চ্যানেল</div>
-<div class="box" style="cursor: default;">
-  Support Telegram: <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a><br />
-  Channel: <a href="https://t.me/BDTOPUPCOM247" target="_blank">https://t.me/BDTOPUPCOM247</a>
+<div id="footer">
+  <p>সাপোর্ট: <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a> | চ্যানেল: <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
+  <p>বিকাশ/নগদ নাম্বার: <strong>01608603364</strong> (বিকাশে পেমেন্ট করুন, নগদে Send Money করুন)</p>
 </div>
 
-<div class="section-title">বিকাশ/নগদ নাম্বার</div>
-<div class="box" onclick="copy('01608603364')">
-  01608603364 (বিকাশ এ পেমেন্ট করুন, নগদ Send Money করুন)
-</div><script>
+<script>
   const uidInput = document.getElementById('uid');
   const trxInput = document.getElementById('trxid');
   const packInput = document.getElementById('selectedPack');
   const orderBtn = document.getElementById('orderBtn');
-  const successMsg = document.createElement('div');
-  const warningMsg = document.createElement('div');
+  const successMsg = document.getElementById('successMsg');
+  const warningMsg = document.getElementById('warningMsg');
   const orderHistoryDiv = document.getElementById('orderHistory');
+  let selectedBox = null;
 
-  // Success & warning message elements
-  successMsg.className = 'success';
-  warningMsg.className = 'warn';
-  orderHistoryDiv.parentNode.insertBefore(successMsg, orderHistoryDiv);
-  orderHistoryDiv.parentNode.insertBefore(warningMsg, orderHistoryDiv);
+  // Tab switcher
+  function openTab(evt, tabName) {
+    const tabcontents = document.querySelectorAll('.tabcontent');
+    tabcontents.forEach(tc => tc.style.display = 'none');
+    const tablinks = document.querySelectorAll('.tab button');
+    tablinks.forEach(tl => tl.classList.remove('active'));
 
-  // Validate inputs & enable order button
-  function validateInputs() {
-    const uid = uidInput.value.trim();
-    const trx = trxInput.value.trim();
-    const pack = packInput.value.trim();
-    orderBtn.disabled = !(uid && trx && pack);
+    document.getElementById(tabName).style.display = 'block';
+    evt.currentTarget.classList.add('active');
+
+    // Clear selection on tab change
+    clearSelection();
   }
 
-  uidInput.addEventListener('input', validateInputs);
-  trxInput.addEventListener('input', validateInputs);
-
-  // Select package from tabs
-  function selectPack(text) {
-    packInput.value = text;
+  function selectPack(elem) {
+    if(selectedBox) selectedBox.classList.remove('selected');
+    selectedBox = elem;
+    elem.classList.add('selected');
+    packInput.value = elem.textContent.trim();
     successMsg.style.display = 'none';
     warningMsg.style.display = 'none';
     validateInputs();
   }
 
-  // Copy payment number
-  function copy(text) {
-    navigator.clipboard.writeText(text);
-    alert('পেমেন্ট নাম্বার কপি হয়েছে: ' + text);
+  function validateInputs() {
+    if(uidInput.value.trim() !== '' && trxInput.value.trim() !== '' && packInput.value.trim() !== '') {
+      orderBtn.disabled = false;
+    } else {
+      orderBtn.disabled = true;
+    }
   }
 
-  // Display order history from localStorage
+  uidInput.addEventListener('input', validateInputs);
+  trxInput.addEventListener('input', validateInputs);
+
+  function clearSelection() {
+    if(selectedBox) {
+      selectedBox.classList.remove('selected');
+      selectedBox = null;
+    }
+    packInput.value = '';
+    validateInputs();
+  }
+
   function displayOrderHistory() {
     let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
     if(allOrders.length === 0) {
@@ -249,120 +328,112 @@
     }
     let html = '';
     allOrders.forEach((order, idx) => {
-      html += `<div style="background:#e3f2fd; margin:5px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
-        📝 <b>${idx + 1}.</b> UID: ${order.uid}, TrxID: ${order.trxid}, Package: ${order.pack}, Date: ${order.date} <br>
-        Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : 'Pending ⏳'}
+      html += `<div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
+        📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
+        TrxID: ${order.trxid} <br>
+        Package: ${order.pack} <br>
+        Date: ${order.date} <br>
+        Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
       </div>`;
     });
     orderHistoryDiv.innerHTML = html;
   }
 
-  // Submit order
   function order() {
     const uid = uidInput.value.trim();
     const trxid = trxInput.value.trim();
     const pack = packInput.value.trim();
 
+    successMsg.style.display = 'none';
+    warningMsg.style.display = 'none';
+
     if(!uid || !trxid || !pack) {
-      alert('UID, TrxID ও প্যাকেজ সিলেক্ট করতে হবে!');
+      alert('সকল ফিল্ড পূরণ করুন: UID, TrxID এবং প্যাকেজ সিলেক্ট করতে হবে!');
       return;
     }
 
-    // Prevent duplicate TrxID
+    // চেক যদি আগেও এই trxid দিয়ে অর্ডার করা থাকে
     if(localStorage.getItem('used_trx_' + trxid)) {
       warningMsg.style.display = 'block';
       warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
       return;
     }
 
-    // Save order
-    const order = {
+    // অর্ডার অবজেক্ট তৈরি
+    const orderObj = {
       uid,
       trxid,
       pack,
-      date: new Date().toLocaleString('bn-BD', {hour12: false}),
+      date: new Date().toLocaleString('bn-BD', {hour12:false}),
       completed: false
     };
 
+    // লোকালস্টোরেজে সেভ করা
     let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    allOrders.push(order);
+    allOrders.push(orderObj);
     localStorage.setItem('allOrders', JSON.stringify(allOrders));
     localStorage.setItem('used_trx_' + trxid, 'true');
 
     successMsg.style.display = 'block';
-    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিট এর মধ্যে গেম আইডিতে ডায়মন্ড চলে যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
+  successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিট এর মধ্যে গেম আইডিতে ডায়মন্ড চলে যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
 
-    // Clear inputs
-    uidInput.value = '';
-    trxInput.value = '';
-    packInput.value = '';
-    orderBtn.disabled = true;
-    warningMsg.style.display = 'none';
+  // ইনপুট ফিল্ড ক্লিয়ার করা
+  uidInput.value = '';
+  trxInput.value = '';
+  clearSelection();
+  orderBtn.disabled = true;
 
-    displayOrderHistory();
-
-    // Auto mark order complete after 30 seconds
-    setTimeout(() => {
-      completeOrder(trxid);
-    }, 30000);
-
-    // Telegram notification
-    const tokenPart1 = "7075083128";
-    const tokenPart2 = "AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
-    const botToken = tokenPart1 + ":" + tokenPart2;
-    const chatId = "6108340963";
-    const message = `✅ নতুন অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({chat_id: chatId, text: message})
-    }).catch(e => console.error('Telegram API error:', e));
-  }
-
-  // Mark order complete in history
-  function completeOrder(trxid) {
-    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    const idx = allOrders.findIndex(o => o.trxid === trxid);
-    if(idx !== -1 && !allOrders[idx].completed) {
-      allOrders[idx].completed = true;
-      localStorage.setItem('allOrders', JSON.stringify(allOrders));
-      displayOrderHistory();
-      successMsg.textContent = `অর্ডার ${trxid} সম্পন্ন হয়েছে ✅`;
-    }
-  }
-
-  // Export orders as JSON file
-  function exportOrders() {
-    const allOrders = localStorage.getItem('allOrders');
-    if(!allOrders) {
-      alert('কোন অর্ডার নেই এক্সপোর্ট করার জন্য।');
-      return;
-    }
-    const blob = new Blob([allOrders], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'bdtopup_orders.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // Tabs switching logic
-  const tabs = document.querySelectorAll('.tabs .tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const tabId = tab.getAttribute('data-tab');
-      tabContents.forEach(tc => {
-        tc.classList.toggle('active', tc.id === tabId);
-      });
-    });
-  });
-
-  // Initialize order history on load
+  // অর্ডার হিস্টোরি রিফ্রেশ করা
   displayOrderHistory();
-                        </script>
+
+  // ৩০ সেকেন্ড পর অটো কমপ্লিট মার্ক করা
+  setTimeout(() => {
+    completeOrder(trxid);
+  }, 30000);
+
+  // Telegram বটে নোটিফিকেশন পাঠানো
+  const botToken = "7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
+  const chatId = "6108340963";
+  const message = `✅ নতুন অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({chat_id: chatId, text: message})
+  }).catch(err => {
+    console.error('Telegram notification failed:', err);
+  });
+}
+
+function completeOrder(trxid) {
+  let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  const idx = allOrders.findIndex(o => o.trxid === trxid);
+  if(idx !== -1 && !allOrders[idx].completed) {
+    allOrders[idx].completed = true;
+    localStorage.setItem('allOrders', JSON.stringify(allOrders));
+    displayOrderHistory();
+    successMsg.textContent = `অর্ডার ${trxid} সম্পন্ন হয়েছে ✅`;
+    successMsg.style.display = 'block';
+  }
+}
+
+function exportOrders() {
+  const allOrders = localStorage.getItem('allOrders');
+  if(!allOrders) {
+    alert('কোন অর্ডার নেই এক্সপোর্ট করার জন্য।');
+    return;
+  }
+  const blob = new Blob([allOrders], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bdtopup_orders.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// পেজ লোডে অর্ডার হিস্টোরি দেখানো
+displayOrderHistory();
+</script>
+
+</body>
+  </html>
