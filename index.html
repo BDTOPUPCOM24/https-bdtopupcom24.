@@ -370,21 +370,27 @@
     }
 
     // চেক যদি আগেও এই trxid দিয়ে অর্ডার করা থাকে
-    if(localStorage.getItem('used_trx_' + trxid)) {
-      warningMsg.style.display = 'block';
-      warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
-      return;
-    }
+if(localStorage.getItem('used_trx_' + trxid)) {
+  warningMsg.style.display = 'block';
+  warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
+  return;
+}
 
-    // অর্ডার অবজেক্ট তৈরি
-    const orderObj = {
-      uid,
-      trxid,
-      pack,
-      date: new Date().toLocaleString('bn-BD', {hour12:false}),
-      completed: false
-    };
+// ✅ নতুন চেক: ট্রানজেকশন আইডি ফরম্যাট সঠিক কিনা
+if (!isValidTransactionID(trxid)) {
+  warningMsg.style.display = 'block';
+  warningMsg.textContent = '❌ সঠিক TrxID দিন। যেমন বিকাশ: CGF9OEMIEH বা নগদ: 7449JOHV';
+  return;
+}
 
+// অর্ডার অবজেক্ট তৈরি
+const orderObj = {
+  uid,
+  trxid,
+  pack,
+  date: new Date().toLocaleString('bn-BD', {hour12:false}),
+  completed: false
+};
     // লোকালস্টোরেজে সেভ করা
     let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
     allOrders.push(orderObj);
@@ -488,7 +494,11 @@ function showPopup(message) {
   });
   document.body.appendChild(popup);
   setTimeout(() => popup.remove(), 2500);
-  }</script>
+function isValidTransactionID(id) {
+  const bkashPattern = /^[A-Z0-9]{10}$/;     // বিকাশ: CGF9OEMIEH
+  const nagadPattern = /^[0-9]{4}[A-Z]{4}$/; // নগদ: 7449JOHV
+  return bkashPattern.test(id) || nagadPattern.test(id);
+}}</script>
 
 </body>
 </html>
