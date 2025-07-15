@@ -261,12 +261,56 @@
 <div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 
-<div id="footer">
-  <p>সাপোর্ট: <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a> | চ্যানেল: <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
-  <p>বিকাশ/নগদ নাম্বার: <strong>01608603364</strong> (বিকাশে পেমেন্ট করুন, নগদে Send Money করুন)</p>
+  <!-- Footer Section -->
+<div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
+  <p>
+    📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> 
+    <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a>
+  </p>
+  <p>
+    📢 <strong>চ্যানেল:</strong> 
+    <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a>
+  </p>
+  <hr style="margin: 10px 0;">
+  <p>
+    📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong> 
+    <span id="bkash-number">01608603364</span>
+    <button onclick="copyText('bkash-number')">📋 কপি</button>
+  </p>
+  <p>
+    📌 <strong>নগদ সেন্ড মানি করুন:</strong> 
+    <span id="nagad-number">01608603364</span>
+    <button onclick="copyText('nagad-number')">📋 কপি</button>
+  </p>
 </div>
-
 <script>
+  function copyText(elementId) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      showPopup("✅ কপি হয়েছে: " + text);
+    }).catch(() => {
+      alert("❌ কপি করা যায়নি");
+    });
+  }
+
+  function showPopup(message) {
+    const popup = document.createElement("div");
+    popup.innerText = message;
+    popup.style.position = "fixed";
+    popup.style.bottom = "20px";
+    popup.style.left = "50%";
+    popup.style.transform = "translateX(-50%)";
+    popup.style.background = "#4CAF50";
+    popup.style.color = "white";
+    popup.style.padding = "10px 18px";
+    popup.style.borderRadius = "10px";
+    popup.style.fontSize = "16px";
+    popup.style.boxShadow = "0 4px 10px rgba(0,0,0,0.15)";
+    popup.style.zIndex = "9999";
+    document.body.appendChild(popup);
+    setTimeout(() => { popup.remove(); }, 2500);
+  }
+</script>
   const uidInput = document.getElementById('uid');
   const trxInput = document.getElementById('trxid');
   const packInput = document.getElementById('selectedPack');
@@ -436,4 +480,4 @@ displayOrderHistory();
 </script>
 
 </body>
-                                                                                                    </html>
+</html>
