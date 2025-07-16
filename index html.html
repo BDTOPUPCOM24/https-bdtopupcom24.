@@ -8,14 +8,19 @@
     body {
       font-family: 'Arial', sans-serif;
       background: #f2f2f2;
-      margin: 0;
-      padding: 20px;
+      margin: 0; padding: 20px;
       text-align: center;
       color: #333;
     }
-    h3 { color: #007bff; font-weight: bold; margin-bottom: 10px; }
-    h2 { color: #007bff; margin-bottom: 20px; }
-
+    h3 {
+      color: #007bff;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
     .tab {
       overflow: hidden;
       background-color: #00bcd4;
@@ -28,17 +33,23 @@
     .tab button {
       background-color: inherit;
       border: none;
+      outline: none;
       cursor: pointer;
       padding: 12px 20px;
+      transition: background-color 0.3s ease;
       color: white;
       font-weight: bold;
       font-size: 14px;
       border-radius: 10px 10px 0 0;
       margin: 0 4px;
     }
-    .tab button:hover { background-color: #0097a7; }
-    .tab button.active { background-color: #007bff; font-weight: bolder; }
-
+    .tab button:hover {
+      background-color: #0097a7;
+    }
+    .tab button.active {
+      background-color: #007bff;
+      font-weight: bolder;
+    }
     .tabcontent {
       display: none;
       background: white;
@@ -60,7 +71,9 @@
       transition: background-color 0.3s ease;
       user-select: none;
     }
-    .box:hover { background-color: #b2ebf2; }
+    .box:hover {
+      background-color: #b2ebf2;
+    }
     .box.selected {
       background-color: #00bcd4;
       color: white;
@@ -75,70 +88,6 @@
       border-radius: 6px;
       font-size: 16px;
     }
-    button#orderBtn {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-      width: 200px;
-    }
-    button#orderBtn:disabled {
-      background-color: #7ec3db;
-      cursor: not-allowed;
-    }
-    #warningMsg, #successMsg {
-      max-width: 500px;
-      margin: 15px auto;
-      padding: 12px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      white-space: pre-line;
-      display: none;
-    }
-    #warningMsg {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeeba;
-    }
-    #successMsg {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    #orderHistory {
-      max-width: 600px;
-      margin: 0 auto 40px auto;
-      text-align: left;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      max-height: 300px;
-      overflow-y: auto;
-      font-size: 14px;
-      color: #333;
-    }
-    .order-completed { color: green; font-weight: bold; }
-    .order-pending { color: #d39e00; font-weight: bold; }
-
-    #footer {
-      margin-top: 50px;
-      font-size: 14px;
-      color: #555;
-      text-align: center;
-    }
-    #footer a {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 0 8px;
-    }
-    #footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -153,25 +102,118 @@
 <input type="text" id="trxid" placeholder="TrxID (Transaction ID)" />
 <input type="text" id="selectedPack" placeholder="আপনার প্যাকেজ সিলেক্ট করুন" readonly />
 
-<!-- Tab, Packages Section -->
-<!-- তোমার পূর্বের সব প্যাকেজ সেকশন এখানে থাকবে -->
-<!-- আমি উপরে শুধু প্রথম অংশ দিলাম, নিচে JavaScript শুরু করছি -->
+<div class="tab" id="packageTabs">
+  <button class="tablinks active" onclick="openTab(event, 'Bangladesh')">বাংলাদেশ সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি / মান্থলি</button>
+  <button class="tablinks" onclick="openTab(event, 'Airdrop')">এয়ারড্রপ</button>
+  <button class="tablinks" onclick="openTab(event, 'Evo')">ইভো এক্সেস</button>
+  <button class="tablinks" onclick="openTab(event, 'Indonesia')">ইন্দোনেশিয়া সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Garena')">Garena Shell (MY)</button>
+  <button class="tablinks" onclick="openTab(event, 'UIDLike')">UID Like</button>
+</div>
 
+<!-- বাংলাদেশ সার্ভার -->
+<div id="Bangladesh" class="tabcontent" style="display:block;">
+  <div class="box" onclick="selectPack(this)">২৫ ডায়মন্ড – ২৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৩৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১১৫ ডায়মন্ড – ৭৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২৪০ ডায়মন্ড – ১৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৬১০ ডায়মন্ড – ৩৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১২৪০ ডায়মন্ড – ৭৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২৫৩০ ডায়মন্ড – ১৫৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০৬০ ডায়মন্ড – ২৯৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
+</div>
+
+<!-- উইকলি / মান্থলি -->
+<div id="Weekly" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">উইকলি লাইট – ৩৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">উইকলি – ১৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">মান্থলি প্যাকেজ  – ৬৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Level Up Pass – ৩৫০ টাকা</div>
+</div>
+
+<!-- এয়ারড্রপ -->
+<div id="Airdrop" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">০.৯৯$ – ১০০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১.৯৯$ – ১৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২.৯৯$ – ২৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩.৯৯$ – ৩৮০ টাকা</div>
+</div>
+
+<!-- ইভো এক্সেস -->
+<div id="Evo" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">৩ দিন ইভো – ৬৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭ দিন ইভো – ১১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩০ দিন ইভো – ২৮৭ টাকা</div>
+</div>
+
+<!-- ইন্দোনেশিয়া সার্ভার -->
+<div id="Indonesia" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">৫ ডায়মন্ড – ১৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭০ ডায়মন্ড – ৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Level Up Pass – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Weekly – ২৫৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Monthly – ৮৯৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">BP Card – ৩৯৯ টাকা</div>
+</div>
+
+<!-- Garena Shell -->
+<div id="Garena" class="tabcontent">
+  <div style="background:#fff3f3; font-weight:bold; color:#880e4f; padding:10px; border-radius:6px; margin-bottom:10px; border:1px solid #880e4f;">
+    পাইকারি মূল্য তালিকা<br>-------------------------<br>
+    𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫০ টাকা (অফার প্রাইস)<br>
+  </div>
+  <div class="box" onclick="selectPack(this)">🪽 290 Shell – ৩৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 390 Shell – ৪৭৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 500 Shell – ৬১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 650 Shell – ৭৬৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 725 Shell – ৮৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1000 Shell – ১১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1300 Shell – ১৫১০ টাকা</div>
+</div>
+
+<!-- UID Like -->
+<div id="UIDLike" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
+</div><!-- ✅ অর্ডার বাটন ও এক্সপোর্ট -->
 <button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
 <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
+<!-- ✅ অর্ডার হিস্টোরি -->
 <div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 
-<!-- Footer Section -->
-<div id="footer">
-  <p>📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
-  <p>📢 <strong>চ্যানেল:</strong> <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
-  <hr>
-  <p>📌 <strong>বিকাশ মার্চেন্ট:</strong> <span id="bkash-number">01608603364</span> <button onclick="copyText('bkash-number')">📋 কপি</button></p>
-  <p>📌 <strong>নগদ সেন্ড মানি:</strong> <span id="nagad-number">01608603364</span> <button onclick="copyText('nagad-number')">📋 কপি</button></p>
+<!-- ✅ Footer Section -->
+<div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
+  <p>
+    📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> 
+    <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a>
+  </p>
+  <p>
+    📢 <strong>চ্যানেল:</strong> 
+    <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a>
+  </p>
+  <hr style="margin: 10px 0;">
+  <p>
+    📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong> 
+    <span id="bkash-number">01608603364</span>
+    <button onclick="copyText('bkash-number')">📋 কপি</button>
+  </p>
+  <p>
+    📌 <strong>নগদ সেন্ড মানি করুন:</strong> 
+    <span id="nagad-number">01608603364</span>
+    <button onclick="copyText('nagad-number')">📋 কপি</button>
+  </p>
 </div>
 
+<!-- ✅ JavaScript -->
 <script>
   const uidInput = document.getElementById('uid');
   const trxInput = document.getElementById('trxid');
@@ -183,15 +225,17 @@
   let selectedBox = null;
 
   function openTab(evt, tabName) {
-    document.querySelectorAll('.tabcontent').forEach(tc => tc.style.display = 'none');
-    document.querySelectorAll('.tab button').forEach(btn => btn.classList.remove('active'));
+    const tabcontents = document.querySelectorAll('.tabcontent');
+    tabcontents.forEach(tc => tc.style.display = 'none');
+    const tablinks = document.querySelectorAll('.tab button');
+    tablinks.forEach(tl => tl.classList.remove('active'));
     document.getElementById(tabName).style.display = 'block';
     evt.currentTarget.classList.add('active');
     clearSelection();
   }
 
   function selectPack(elem) {
-    if (selectedBox) selectedBox.classList.remove('selected');
+    if(selectedBox) selectedBox.classList.remove('selected');
     selectedBox = elem;
     elem.classList.add('selected');
     packInput.value = elem.textContent.trim();
@@ -201,17 +245,42 @@
   }
 
   function validateInputs() {
-    orderBtn.disabled = !(uidInput.value.trim() && trxInput.value.trim() && packInput.value.trim());
+    if(uidInput.value.trim() && trxInput.value.trim() && packInput.value.trim()) {
+      orderBtn.disabled = false;
+    } else {
+      orderBtn.disabled = true;
+    }
   }
 
   uidInput.addEventListener('input', validateInputs);
   trxInput.addEventListener('input', validateInputs);
 
   function clearSelection() {
-    if (selectedBox) selectedBox.classList.remove('selected');
-    selectedBox = null;
+    if(selectedBox) {
+      selectedBox.classList.remove('selected');
+      selectedBox = null;
+    }
     packInput.value = '';
     validateInputs();
+  }
+
+  function displayOrderHistory() {
+    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+    if(allOrders.length === 0) {
+      orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
+      return;
+    }
+    let html = '';
+    allOrders.forEach((order, idx) => {
+      html += `<div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
+        📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
+        TrxID: ${order.trxid} <br>
+        Package: ${order.pack} <br>
+        Date: ${order.date} <br>
+        Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
+      </div>`;
+    });
+    orderHistoryDiv.innerHTML = html;
   }
 
   function order() {
@@ -222,12 +291,12 @@
     successMsg.style.display = 'none';
     warningMsg.style.display = 'none';
 
-    if (!uid || !trxid || !pack) {
+    if(!uid || !trxid || !pack) {
       alert('সকল ফিল্ড পূরণ করুন: UID, TrxID এবং প্যাকেজ সিলেক্ট করতে হবে!');
       return;
     }
 
-    if (localStorage.getItem('used_trx_' + trxid)) {
+    if(localStorage.getItem('used_trx_' + trxid)) {
       warningMsg.style.display = 'block';
       warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
       return;
@@ -241,7 +310,7 @@
 
     const orderObj = {
       uid, trxid, pack,
-      date: new Date().toLocaleString('bn-BD', { hour12: false }),
+      date: new Date().toLocaleString('bn-BD', {hour12:false}),
       completed: false
     };
 
@@ -251,29 +320,35 @@
     localStorage.setItem('used_trx_' + trxid, 'true');
 
     successMsg.style.display = 'block';
-    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
+    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে ডায়মন্ড যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
+
     uidInput.value = '';
     trxInput.value = '';
     clearSelection();
     orderBtn.disabled = true;
+
     displayOrderHistory();
 
-    setTimeout(() => completeOrder(trxid), 30000);
+    setTimeout(() => {
+      completeOrder(trxid);
+    }, 30000);
 
     const botToken = "7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const chatId = "6108340963";
-    const message = `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
+    const message = `✅ নতুন অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: message })
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: chatId, text: message})
+    }).catch(err => {
+      console.error('Telegram notification failed:', err);
     });
   }
 
   function completeOrder(trxid) {
     let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
     const idx = allOrders.findIndex(o => o.trxid === trxid);
-    if (idx !== -1 && !allOrders[idx].completed) {
+    if(idx !== -1 && !allOrders[idx].completed) {
       allOrders[idx].completed = true;
       localStorage.setItem('allOrders', JSON.stringify(allOrders));
       displayOrderHistory();
@@ -284,11 +359,11 @@
 
   function exportOrders() {
     const allOrders = localStorage.getItem('allOrders');
-    if (!allOrders) {
+    if(!allOrders) {
       alert('কোন অর্ডার নেই এক্সপোর্ট করার জন্য।');
       return;
     }
-    const blob = new Blob([allOrders], { type: "application/json" });
+    const blob = new Blob([allOrders], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -297,27 +372,18 @@
     URL.revokeObjectURL(url);
   }
 
-  function displayOrderHistory() {
-    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    if (allOrders.length === 0) {
-      orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
-      return;
-    }
-    orderHistoryDiv.innerHTML = allOrders.map((o, i) => `
-      <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
-        📝 <b>${i + 1}.</b> UID: ${o.uid} <br>
-        TrxID: ${o.trxid} <br>
-        Package: ${o.pack} <br>
-        Date: ${o.date} <br>
-        Status: ${o.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
-      </div>`).join('');
-  }
+  displayOrderHistory();
 
   function copyText(elementId) {
     const element = document.getElementById(elementId);
-    const text = element?.innerText.trim();
+    if (!element) return alert("❌ উপাদান খুঁজে পাওয়া যায়নি");
+    const text = element.innerText.trim();
     if (!text) return alert("❌ কপি করার মতো কোনো লেখা পাওয়া যায়নি");
-    navigator.clipboard.writeText(text).then(() => showPopup("✅ কপি হয়েছে: " + text));
+    navigator.clipboard.writeText(text).then(() => {
+      showPopup("✅ কপি হয়েছে: " + text);
+    }).catch(() => {
+      alert("❌ কপি করা যায়নি");
+    });
   }
 
   function showPopup(message) {
@@ -345,9 +411,6 @@
     const nagadPattern = /^[0-9]{4}[A-Z]{4}$/;
     return bkashPattern.test(id) || nagadPattern.test(id);
   }
-
-  // Init
-  displayOrderHistory();
 </script>
 
 </body>
