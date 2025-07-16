@@ -200,9 +200,9 @@
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
 </div>
 
-  <button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button> <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
+<!-- অর্ডার ও এক্সপোর্ট বাটন --><button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button> <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
-<div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
+<!-- অর্ডার হিস্টোরি --><div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div><!-- Footer --><div id="footer">
   <p>📞 <strong>যোগাযোগ:</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
   <p>📢 <strong>চ্যানেল:</strong> <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
@@ -212,7 +212,7 @@
 const uidInput = document.getElementById('uid');
 const trxInput = document.getElementById('trxid');
 const packInput = document.getElementById('selectedPack');
-const emailInput = document.getElementById('email'); // নতুন ইমেইল ইনপুট
+const emailInput = document.getElementById('email') || null;
 const orderBtn = document.getElementById('orderBtn');
 const successMsg = document.getElementById('successMsg');
 const warningMsg = document.getElementById('warningMsg');
@@ -227,18 +227,30 @@ function isValidTransactionID(id) {
 }
 
 function validateInputs() {
-  const uidFilled = uidInput.value.trim();
-  const trxFilled = trxInput.value.trim();
-  const packFilled = packInput.value.trim();
-  const emailVisible = emailInput && emailInput.style.display !== 'none';
-  const emailFilled = !emailVisible || (emailInput.value && emailInput.value.includes('@'));
+  const uidFilled = uidInput.value.trim() !== '';
+  const trxFilled = trxInput.value.trim() !== '';
+  const packFilled = packInput.value.trim() !== '';
+  const currentTab = document.querySelector(".tab button.active").textContent.trim();
 
-  orderBtn.disabled = !(uidFilled && trxFilled && packFilled && emailFilled);
+  if (currentTab.includes("Garena")) {
+    const emailValid = emailInput && emailInput.value.trim() !== '';
+    orderBtn.disabled = !(uidFilled && trxFilled && packFilled && emailValid);
+  } else {
+    orderBtn.disabled = !(uidFilled && trxFilled && packFilled);
+  }
 }
 
 uidInput.addEventListener('input', validateInputs);
 trxInput.addEventListener('input', validateInputs);
-if(emailInput) emailInput.addEventListener('input', validateInputs);
+if (emailInput) emailInput.addEventListener('input', validateInputs);
+
+function selectPack(elem) {
+  if (selectedBox) selectedBox.classList.remove('selected');
+  selectedBox = elem;
+  elem.classList.add('selected');
+  packInput.value = elem.textContent.trim();
+  validateInputs();
+}
 
 function order() {
   const uid = uidInput.value.trim();
@@ -246,8 +258,8 @@ function order() {
   const pack = packInput.value.trim();
   const email = emailInput ? emailInput.value.trim() : '';
 
-  warningMsg.style.display = 'none';
   successMsg.style.display = 'none';
+  warningMsg.style.display = 'none';
 
   if (!isValidTransactionID(trxid)) {
     warningMsg.style.display = 'block';
@@ -272,35 +284,35 @@ function order() {
   localStorage.setItem('allOrders', JSON.stringify(allOrders));
   localStorage.setItem('used_trx_' + trxid, 'true');
 
-  let message = '';
-  if (pack.includes('Shell')) {
-    message = `✅ Garena Shell অর্ডার সফল!\nআপনার ইউজার আইডি যাচাই করে ১-৫ মিনিটের মধ্যে ইমেইল এ শেল রিডিম কোড পাঠানো হবে ইনশাআল্লাহ।\n📌 UID: ${uid}\n📧 Email: ${email}\n📦 প্যাকেজ: ${pack}`;
-  } else if (pack.includes('লাইক')) {
-    message = `✅ UID Like অর্ডার সফল!\nআপনার UID তে ${pack} লাইক দেওয়া হবে ইনশাআল্লাহ কিছুক্ষণের মধ্যে।\n📌 UID: ${uid}\n📦 প্যাকেজ: ${pack}`;
-  } else if (pack.includes('$')) {
-    message = `✅ Airdrop অর্ডার সফল!\nআপনার আইডিতে ${pack} প্যাক রিচার্জ হয়ে যাবে ১-৫ মিনিটের মধ্যে ইনশাআল্লাহ।\n📌 UID: ${uid}`;
-  } else if (pack.includes('ইভো')) {
-    message = `✅ ইভো এক্সেস অর্ডার সফল!\nআপনার UID তে ${pack} একটিভ করা হবে ইনশাআল্লাহ।\n📌 UID: ${uid}`;
+  // ✅ Success Message Custom per Pack
+  let msg = '';
+  if (pack.includes("Shell")) {
+    msg = `✅ Garena Shell অর্ডার সফল!\nআপনার ইউজার আইডি যাচাই করে ১-৫ মিনিটের মধ্যে ইমেইল এ শেল রিডিম কোড পাঠানো হবে ইনশাআল্লাহ।\n📌 UID: ${uid}\n📧 Email: ${email}\n📦 প্যাকেজ: ${pack}`;
+  } else if (pack.includes("লাইক")) {
+    msg = `✅ UID Like অর্ডার সফল!\nUID: ${uid}\nলাইক প্যাকেজ: ${pack}\nডেলিভারি সময়: ১০-৩০ মিনিট।`; 
   } else {
-    message = `✅ অর্ডার সফল হয়েছে!\nআপনার UID তে ${pack} টপআপ করা হবে ইনশাআল্লাহ ১-৫ মিনিটের মধ্যে।\n📌 UID: ${uid}`;
+    msg = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ!\nUID: ${uid}\nপ্যাকেজ: ${pack}\nআপনার গেম একাউন্টে ১–৫ মিনিটে ডায়মন্ড পৌঁছে যাবে।`; 
   }
 
   successMsg.style.display = 'block';
-  successMsg.textContent = message;
+  successMsg.textContent = msg;
 
   uidInput.value = '';
   trxInput.value = '';
-  if(emailInput) emailInput.value = '';
   packInput.value = '';
+  if (emailInput) emailInput.value = '';
   orderBtn.disabled = true;
   displayOrderHistory();
+
+  // Telegram message
+  const telegramMessage = `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}${email ? `\nEmail: ${email}` : ''}`;
 
   fetch(`https://api.telegram.org/bot7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY/sendMessage`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       chat_id: '6108340963',
-      text: `✅ নতুন অর্ডার:\nUID: ${uid}\n${email ? 'Email: ' + email + '\n' : ''}TrxID: ${trxid}\nPackage: ${pack}`
+      text: telegramMessage
     })
   });
 }
@@ -312,13 +324,12 @@ function displayOrderHistory() {
     return;
   }
   orderHistoryDiv.innerHTML = allOrders.map((order, idx) => `
-    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
+    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px;">
       📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
       TrxID: ${order.trxid} <br>
-      Package: ${order.pack} <br>
-      ${order.email ? 'Email: ' + order.email + '<br>' : ''}
+      Package: ${order.pack} ${order.email ? `<br>Email: ${order.email}` : ''} <br>
       Date: ${order.date} <br>
-      Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
+      Status: ${order.completed ? '✅ Completed' : '⏳ Pending'}
     </div>
   `).join('');
 }
