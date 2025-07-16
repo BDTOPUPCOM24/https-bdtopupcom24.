@@ -88,21 +88,8 @@
       border-radius: 6px;
       font-size: 16px;
     }
-    button#orderBtn {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-      width: 200px;
-    }
-    button#orderBtn:disabled {
-      background-color: #7ec3db;
-      cursor: not-allowed;
+    #emailInput {
+      display: none;
     }
     #warningMsg, #successMsg {
       max-width: 500px;
@@ -123,7 +110,6 @@
       color: #155724;
       border: 1px solid #c3e6cb;
     }
-    #emailInput { display: none; }
   </style>
 </head>
 <body>
@@ -135,22 +121,23 @@
 <div id="successMsg"></div>
 
 <input type="text" id="uid" placeholder="আপনার Game UID দিন" />
+<input type="email" id="emailInput" placeholder="Garena Email দিন (শুধু Garena এর জন্য)" />
 <input type="text" id="trxid" placeholder="TrxID (Transaction ID)" />
-<input type="email" id="emailInput" placeholder="আপনার Email দিন (শুধু Garena Shell এর জন্য)" />
 <input type="text" id="selectedPack" placeholder="আপনার প্যাকেজ সিলেক্ট করুন" readonly />
 
+<!-- All Package Tabs -->
 <div class="tab" id="packageTabs">
-  <button class="tablinks active" onclick="openTab(event, 'Bangladesh')">বাংলাদেশ</button>
-  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি/মান্থলি</button>
+  <button class="tablinks active" onclick="openTab(event, 'Bangladesh')">বাংলাদেশ সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি / মান্থলি</button>
   <button class="tablinks" onclick="openTab(event, 'Airdrop')">এয়ারড্রপ</button>
   <button class="tablinks" onclick="openTab(event, 'Evo')">ইভো এক্সেস</button>
-  <button class="tablinks" onclick="openTab(event, 'Indonesia')">ইন্দোনেশিয়া</button>
-  <button class="tablinks" onclick="openTab(event, 'Garena')">Garena Shell</button>
+  <button class="tablinks" onclick="openTab(event, 'Indonesia')">ইন্দোনেশিয়া সার্ভার</button>
+  <button class="tablinks" onclick="openTab(event, 'Garena')">Garena Shell (MY)</button>
   <button class="tablinks" onclick="openTab(event, 'UIDLike')">UID Like</button>
 </div>
 
-<!-- সব প্যাকেজ ট্যাব এখানে থাকবে -->
-<div id="Bangladesh" class="tabcontent" style="display:block">
+<!-- Bangladesh Server -->
+<div id="Bangladesh" class="tabcontent" style="display:block;">
   <div class="box" onclick="selectPack(this)">২৫ ডায়মন্ড – ২৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৩৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">১১৫ ডায়মন্ড – ৭৯ টাকা</div>
@@ -162,13 +149,15 @@
   <div class="box" onclick="selectPack(this)">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
 </div>
 
+<!-- Weekly/Monthly -->
 <div id="Weekly" class="tabcontent">
   <div class="box" onclick="selectPack(this)">উইকলি লাইট – ৩৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">উইকলি – ১৫০ টাকা</div>
-  <div class="box" onclick="selectPack(this)">মান্থলি প্যাকেজ  – ৬৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">মান্থলি প্যাকেজ – ৬৮০ টাকা</div>
   <div class="box" onclick="selectPack(this)">Level Up Pass – ৩৫০ টাকা</div>
 </div>
 
+<!-- Airdrop -->
 <div id="Airdrop" class="tabcontent">
   <div class="box" onclick="selectPack(this)">০.৯৯$ – ১০০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১.৯৯$ – ১৮০ টাকা</div>
@@ -176,12 +165,14 @@
   <div class="box" onclick="selectPack(this)">৩.৯৯$ – ৩৮০ টাকা</div>
 </div>
 
+<!-- Evo -->
 <div id="Evo" class="tabcontent">
   <div class="box" onclick="selectPack(this)">৩ দিন ইভো – ৬৯ টাকা</div>
   <div class="box" onclick="selectPack(this)">৭ দিন ইভো – ১১০ টাকা</div>
   <div class="box" onclick="selectPack(this)">৩০ দিন ইভো – ২৮৭ টাকা</div>
 </div>
 
+<!-- Indonesia Server -->
 <div id="Indonesia" class="tabcontent">
   <div class="box" onclick="selectPack(this)">৫ ডায়মন্ড – ১৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৬০ টাকা</div>
@@ -196,7 +187,12 @@
   <div class="box" onclick="selectPack(this)">BP Card – ৩৯৯ টাকা</div>
 </div>
 
+<!-- Garena Shell -->
 <div id="Garena" class="tabcontent">
+  <div style="background:#fff3f3; font-weight:bold; color:#880e4f; padding:10px; border-radius:6px; margin-bottom:10px; border:1px solid #880e4f;">
+    পাইকারি মূল্য তালিকা<br>-------------------------<br>
+    𝗚𝗮𝗿𝗲𝗻𝗮 𝗦𝗵𝗲𝗹𝗹 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗠𝗬) – ৩৫০ টাকা (অফার প্রাইস)<br>
+  </div>
   <div class="box" onclick="selectPack(this)">🪽 290 Shell – ৩৬০ টাকা</div>
   <div class="box" onclick="selectPack(this)">🪽 390 Shell – ৪৭৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">🪽 500 Shell – ৬১০ টাকা</div>
@@ -206,6 +202,7 @@
   <div class="box" onclick="selectPack(this)">🪽 1300 Shell – ১৫১০ টাকা</div>
 </div>
 
+<!-- UID Like -->
 <div id="UIDLike" class="tabcontent">
   <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
