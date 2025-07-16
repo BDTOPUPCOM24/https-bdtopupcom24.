@@ -208,46 +208,76 @@
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
 </div>
 
-<!-- দ্বিতীয় ভাগ: অর্ডার বাটন, হিস্টোরি, স্ক্রিপ্ট -->
-<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
-<button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
+<!-- ✅ ২য় ভাগ: JavaScript সহ Footer ও Scrollable Order History --><!-- অর্ডার বাটন ও এক্সপোর্ট --><button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button> <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
-<div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
-<div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
-
-<div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd;">
-  <p>📞 <strong>যোগাযোগ:</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
+<!-- ✅ অর্ডার হিস্টোরি (Scrollable + Animated Box Style) --><div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
+<div id="orderHistoryWrapper">
+  <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
+</div><!-- ✅ Footer Section --><div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
+  <p>📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
   <p>📢 <strong>চ্যানেল:</strong> <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
-  <p>📌 <strong>বিকাশ:</strong> <span id="bkash-number">01608603364</span> <button onclick="copyText('bkash-number')">📋 কপি</button></p>
-  <p>📌 <strong>নগদ:</strong> <span id="nagad-number">01608603364</span> <button onclick="copyText('nagad-number')">📋 কপি</button></p>
-</div>
-
-<script>
+  <hr style="margin: 10px 0;">
+  <p>📌 <strong>বিকাশ মার্চেন্ট:</strong> <span id="bkash-number">01608603364</span> <button onclick="copyText('bkash-number')">📋 কপি</button></p>
+  <p>📌 <strong>নগদ সেন্ড মানি:</strong> <span id="nagad-number">01608603364</span> <button onclick="copyText('nagad-number')">📋 কপি</button></p>
+</div><style>
+#orderHistoryWrapper {
+  max-width: 500px;
+  margin: 10px auto;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  scroll-behavior: smooth;
+}
+.orderBox {
+  display: inline-block;
+  background: #e3f2fd;
+  padding: 10px;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  margin: 5px;
+  min-width: 250px;
+  vertical-align: top;
+  transition: transform 0.3s ease;
+}
+.orderBox:hover {
+  transform: scale(1.03);
+}
+</style><script>
 const uidInput = document.getElementById('uid');
 const trxInput = document.getElementById('trxid');
 const packInput = document.getElementById('selectedPack');
-const emailInput = document.getElementById('emailInput');
 const orderBtn = document.getElementById('orderBtn');
 const successMsg = document.getElementById('successMsg');
 const warningMsg = document.getElementById('warningMsg');
-const orderHistoryDiv = document.getElementById('orderHistory');
-
+const emailInput = document.getElementById('emailInput');
 let selectedBox = null;
-let currentTab = "Bangladesh"; // ডিফল্ট
+
+function isValidTransactionID(id) {
+  const bkashPattern = /^[A-Z0-9]{10}$/;
+  const nagadPattern = /^[0-9]{4}[A-Z]{4}$/;
+  return bkashPattern.test(id) || nagadPattern.test(id);
+}
 
 function openTab(evt, tabName) {
-  const tabcontents = document.querySelectorAll('.tabcontent');
-  tabcontents.forEach(tc => tc.style.display = 'none');
-  const tablinks = document.querySelectorAll('.tab button');
-  tablinks.forEach(tl => tl.classList.remove('active'));
-
+  const tabcontent = document.getElementsByClassName('tabcontent');
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = 'none';
+  }
+  const tablinks = document.getElementsByClassName('tablinks');
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove('active');
+  }
   document.getElementById(tabName).style.display = 'block';
   evt.currentTarget.classList.add('active');
 
-  currentTab = tabName;
-
-  // Only show email field for Garena Shell
-  emailInput.style.display = (tabName === 'Garena') ? 'inline-block' : 'none';
+  if(tabName === 'Garena') {
+    emailInput.style.display = 'block';
+  } else {
+    emailInput.style.display = 'none';
+  }
 
   clearSelection();
 }
@@ -257,29 +287,15 @@ function selectPack(elem) {
   selectedBox = elem;
   elem.classList.add('selected');
   packInput.value = elem.textContent.trim();
+  validateInputs();
   successMsg.style.display = 'none';
   warningMsg.style.display = 'none';
-  validateInputs();
-}
-
-function isValidTransactionID(id) {
-  id = id.trim().toUpperCase();
-  const bkashPattern = /^[A-Z0-9]{10}$/;     // যেমন CGF9OEMIEH
-  const nagadPattern = /^[0-9]{4}[A-Z]{4}$/; // যেমন 7449JOHV
-  return bkashPattern.test(id) || nagadPattern.test(id);
 }
 
 function validateInputs() {
-  const uid = uidInput.value.trim();
-  const trx = trxInput.value.trim();
-  const pack = packInput.value.trim();
-  const email = emailInput.value.trim();
-
-  if (currentTab === 'Garena') {
-    orderBtn.disabled = !(uid && trx && pack && email);
-  } else {
-    orderBtn.disabled = !(uid && trx && pack);
-  }
+  const isGarena = document.getElementById('Garena').style.display === 'block';
+  const isValid = uidInput.value.trim() !== '' && trxInput.value.trim() !== '' && packInput.value.trim() !== '' && (!isGarena || emailInput.value.trim() !== '');
+  orderBtn.disabled = !isValid;
 }
 
 uidInput.addEventListener('input', validateInputs);
@@ -300,9 +316,7 @@ function order() {
   const trxid = trxInput.value.trim().toUpperCase();
   const pack = packInput.value.trim();
   const email = emailInput.value.trim();
-
-  warningMsg.style.display = 'none';
-  successMsg.style.display = 'none';
+  const isGarena = document.getElementById('Garena').style.display === 'block';
 
   if (!isValidTransactionID(trxid)) {
     warningMsg.style.display = 'block';
@@ -317,85 +331,73 @@ function order() {
   }
 
   const orderObj = {
-    uid, trxid, pack, email,
-    tab: currentTab,
-    date: new Date().toLocaleString('bn-BD', { hour12: false }),
-    completed: false
+    uid, trxid, pack, date: new Date().toLocaleString('bn-BD', { hour12: false }), completed: false, email
   };
-
-  let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
   allOrders.push(orderObj);
   localStorage.setItem('allOrders', JSON.stringify(allOrders));
   localStorage.setItem('used_trx_' + trxid, 'true');
 
-  // Success Message per package
-  if (currentTab === 'Garena') {
-    successMsg.textContent = `✅ Garena Shell অর্ডার সফল!
-আপনার ইউজার আইডি যাচাই করে ১-৫ মিনিটের মধ্যে ইমেইল এ শেল রিডিম কোড পাঠানো হবে ইনশাআল্লাহ।
-📌 UID: ${uid}
-📧 Email: ${email}
-📦 প্যাকেজ: ${pack}`;
-  } else {
-    successMsg.textContent = `✅ অর্ডার সফল হয়েছে!
-ইনশাআল্লাহ ১-৫ মিনিটের মধ্যে ডায়মন্ড আপনার আইডিতে পৌঁছে যাবে।
+  let message = `✅ অর্ডার সফল হয়েছে!
 📌 UID: ${uid}
 📦 প্যাকেজ: ${pack}`;
-  }
-
+  if (isGarena) message += `\n📧 Email: ${email}\nইমেইলে শেল কোড ইনশাআল্লাহ ১–৫ মিনিটের মধ্যে যাবে।`;
+  successMsg.textContent = message;
   successMsg.style.display = 'block';
 
-  // Reset form
   uidInput.value = '';
   trxInput.value = '';
   emailInput.value = '';
   clearSelection();
   orderBtn.disabled = true;
+
   displayOrderHistory();
 
-  // Auto complete after 30s
-  setTimeout(() => {
-    completeOrder(trxid);
-  }, 30000);
+  setTimeout(() => completeOrder(trxid), 30000);
 
-  // Telegram Message
-  const botToken = "7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
-  const chatId = "6108340963";
-  let message = `✅ নতুন অর্ডার\n📌 UID: ${uid}\n💳 TrxID: ${trxid}\n📦 প্যাকেজ: ${pack}`;
-  if (currentTab === 'Garena') message += `\n📧 Email: ${email}`;
+  const botToken = '7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY';
+  const chatId = '6108340963';
+  let telegramMsg = `✅ নতুন অর্ডার:
+UID: ${uid}
+TrxID: ${trxid}
+Package: ${pack}`;
+  if (isGarena) telegramMsg += `\nEmail: ${email}`;
+
   fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: chatId, text: message })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: telegramMsg })
   });
 }
 
 function completeOrder(trxid) {
-  let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-  const idx = allOrders.findIndex(o => o.trxid === trxid);
-  if (idx !== -1 && !allOrders[idx].completed) {
-    allOrders[idx].completed = true;
+  const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  const index = allOrders.findIndex(o => o.trxid === trxid);
+  if (index !== -1 && !allOrders[index].completed) {
+    allOrders[index].completed = true;
     localStorage.setItem('allOrders', JSON.stringify(allOrders));
     displayOrderHistory();
-    successMsg.textContent = `✅ অর্ডার সম্পূর্ণ হয়েছে: ${trxid}`;
+    successMsg.textContent = `✅ অর্ডার সম্পন্ন হয়েছে (${trxid})`;
     successMsg.style.display = 'block';
   }
 }
 
 function displayOrderHistory() {
   const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  const orderHistory = document.getElementById('orderHistory');
   if (allOrders.length === 0) {
-    orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
+    orderHistory.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
     return;
   }
-  orderHistoryDiv.innerHTML = allOrders.map((order, idx) => `
-    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px;">
-      📝 <b>${idx + 1}.</b> UID: ${order.uid}<br>
+  orderHistory.innerHTML = allOrders.map((order, idx) => `
+    <div class="orderBox">
+      📝 <b>${idx + 1}.</b><br>
+      UID: ${order.uid}<br>
       TrxID: ${order.trxid}<br>
-      ${order.email ? '📧 Email: ' + order.email + '<br>' : ''}
       প্যাকেজ: ${order.pack}<br>
-      টাইপ: ${order.tab}<br>
       সময়: ${order.date}<br>
-      স্ট্যাটাস: ${order.completed ? '✅ Completed' : '⏳ Pending'}
+      ${order.email ? 'Email: ' + order.email + '<br>' : ''}
+      স্ট্যাটাস: ${order.completed ? '✅ সম্পন্ন' : '⏳ প্রসেসিং'}
     </div>
   `).join('');
 }
@@ -403,7 +405,7 @@ function displayOrderHistory() {
 function exportOrders() {
   const data = localStorage.getItem('allOrders');
   if (!data) return alert('কোনো অর্ডার নেই!');
-  const blob = new Blob([data], {type: 'application/json'});
+  const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -414,12 +416,11 @@ function exportOrders() {
 
 function copyText(id) {
   const el = document.getElementById(id);
-  if (!el) return alert('উপাদান পাওয়া যায়নি');
+  if (!el) return alert('❌ উপাদান খুঁজে পাওয়া যায়নি');
   navigator.clipboard.writeText(el.innerText.trim())
-    .then(() => alert('✅ কপি হয়েছে'))
-    .catch(() => alert('❌ কপি করা যায়নি'));
+    .then(() => alert('✅ কপি হয়েছে'))
+    .catch(() => alert('❌ কপি করা যায়নি'));
 }
 
-// On load
 displayOrderHistory();
 </script>
