@@ -182,239 +182,137 @@
 <div id="UIDLike" class="tabcontent">
   <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
-</div><button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
+</div><!-- এই অংশ ১ম ভাগের নিচে বসাবে -->
+
+<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
 <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
 <div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 
-<!-- Footer Section -->
-<div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
-  <p>📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> 
-    <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a>
-  </p>
-  <p>📢 <strong>চ্যানেল:</strong> 
-    <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a>
-  </p>
-  <hr style="margin: 10px 0;">
-  <p>📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong> 
-    <span id="bkash-number">01608603364</span>
-    <button onclick="copyText('bkash-number')">📋 কপি</button>
-  </p>
-  <p>📌 <strong>নগদ সেন্ড মানি করুন:</strong> 
-    <span id="nagad-number">01608603364</span>
-    <button onclick="copyText('nagad-number')">📋 কপি</button>
-  </p>
+<!-- Footer -->
+<div id="footer">
+  <p>📞 <strong>যোগাযোগ:</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
+  <p>📢 <strong>চ্যানেল:</strong> <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
+  <p>📌 <strong>বিকাশ:</strong> <span id="bkash-number">01608603364</span> <button onclick="copyText('bkash-number')">📋 কপি</button></p>
+  <p>📌 <strong>নগদ:</strong> <span id="nagad-number">01608603364</span> <button onclick="copyText('nagad-number')">📋 কপি</button></p>
 </div>
 
 <script>
-  const uidInput = document.getElementById('uid');
-  const trxInput = document.getElementById('trxid');
-  const packInput = document.getElementById('selectedPack');
-  const orderBtn = document.getElementById('orderBtn');
-  const successMsg = document.getElementById('successMsg');
-  const warningMsg = document.getElementById('warningMsg');
-  const orderHistoryDiv = document.getElementById('orderHistory');
-  let selectedBox = null;
+const uidInput = document.getElementById('uid');
+const trxInput = document.getElementById('trxid');
+const packInput = document.getElementById('selectedPack');
+const orderBtn = document.getElementById('orderBtn');
+const successMsg = document.getElementById('successMsg');
+const warningMsg = document.getElementById('warningMsg');
+const orderHistoryDiv = document.getElementById('orderHistory');
+let selectedBox = null;
 
-  function openTab(evt, tabName) {
-    const tabcontents = document.querySelectorAll('.tabcontent');
-    tabcontents.forEach(tc => tc.style.display = 'none');
-    const tablinks = document.querySelectorAll('.tab button');
-    tablinks.forEach(tl => tl.classList.remove('active'));
-    document.getElementById(tabName).style.display = 'block';
-    evt.currentTarget.classList.add('active');
-    clearSelection();
-  }
+function isValidTransactionID(id) {
+  id = id.trim().toUpperCase();
+  const bkashPattern = /^[A-Z0-9]{10}$/;
+  const nagadPattern = /^[0-9]{4}[A-Z]{4}$/;
+  return bkashPattern.test(id) || nagadPattern.test(id);
+}
 
-  function selectPack(elem) {
-    if(selectedBox) selectedBox.classList.remove('selected');
-    selectedBox = elem;
-    elem.classList.add('selected');
-    packInput.value = elem.textContent.trim();
-    successMsg.style.display = 'none';
-    warningMsg.style.display = 'none';
-    validateInputs();
-  }
-
-  function clearSelection() {
-    if(selectedBox) {
-      selectedBox.classList.remove('selected');
-      selectedBox = null;
-    }
-    packInput.value = '';
-    validateInputs();
-  }
-
-  // ✅ validateInputs ফাংশন যেখানে নতুন চেক যুক্ত
-  function validateInputs() {
-    const uid = uidInput.value.trim();
-    const trxid = trxInput.value.trim();
-    const pack = packInput.value.trim();
-    const validTrx = isValidTransactionID(trxid);
-
-    if (uid && trxid && pack && validTrx) {
-      orderBtn.disabled = false;
-      warningMsg.style.display = 'none';
-    } else {
-      orderBtn.disabled = true;
-      if (trxid && !validTrx) {
-        warningMsg.style.display = 'block';
-        warningMsg.textContent = '❌ আপনার ট্রাঞ্জেক্সন আইডি সঠিক নয়, সঠিক ট্রাঞ্জেক্সন দিয়ে ভেরিফাই করুন';
-      } else {
-        warningMsg.style.display = 'none';
-      }
-    }
-  }
-
-  function isValidTransactionID(id) {
-    const bkashPattern = /^[A-Z0-9]{10}$/;     // যেমন CGF90EMIEH
-    const nagadPattern = /^[0-9]{4}[A-Z]{4}$/; // যেমন 7449JOHV
-    return bkashPattern.test(id) || nagadPattern.test(id);
-  }
-
-  uidInput.addEventListener('input', validateInputs);
-  trxInput.addEventListener('input', validateInputs);
-
-  function displayOrderHistory() {
-    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    if(allOrders.length === 0) {
-      orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
-      return;
-    }
-    let html = '';
-    allOrders.forEach((order, idx) => {
-      html += `<div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
-        📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
-        TrxID: ${order.trxid} <br>
-        Package: ${order.pack} <br>
-        Date: ${order.date} <br>
-        Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
-      </div>`;
-    });
-    orderHistoryDiv.innerHTML = html;
-  }
-
-  function order() {
-    const uid = uidInput.value.trim();
-    const trxid = trxInput.value.trim();
-    const pack = packInput.value.trim();
-    successMsg.style.display = 'none';
-    warningMsg.style.display = 'none';
-
-    if(!uid || !trxid || !pack) {
-      alert('সকল ফিল্ড পূরণ করুন: UID, TrxID এবং প্যাকেজ সিলেক্ট করতে হবে!');
-      return;
-    }
-
-    if(localStorage.getItem('used_trx_' + trxid)) {
-      warningMsg.style.display = 'block';
-      warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
-      return;
-    }
-
-    if (!isValidTransactionID(trxid)) {
-      warningMsg.style.display = 'block';
-      warningMsg.textContent = '❌ আপনার ট্রাঞ্জেক্সন আইডি সঠিক নয়, সঠিক ট্রাঞ্জেক্সন দিয়ে ভেরিফাই করুন';
-      return;
-    }
-
-    const orderObj = {
-      uid,
-      trxid,
-      pack,
-      date: new Date().toLocaleString('bn-BD', {hour12:false}),
-      completed: false
-    };
-
-    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    allOrders.push(orderObj);
-    localStorage.setItem('allOrders', JSON.stringify(allOrders));
-    localStorage.setItem('used_trx_' + trxid, 'true');
-
-    successMsg.style.display = 'block';
-    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিট এর মধ্যে গেম আইডিতে ডায়মন্ড চলে যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
-    uidInput.value = '';
-    trxInput.value = '';
-    clearSelection();
+function validateInputs() {
+  if (uidInput.value.trim() && trxInput.value.trim() && packInput.value.trim()) {
+    orderBtn.disabled = false;
+  } else {
     orderBtn.disabled = true;
-    displayOrderHistory();
+  }
+}
 
-    setTimeout(() => {
-      completeOrder(trxid);
-    }, 30000);
+uidInput.addEventListener('input', validateInputs);
+trxInput.addEventListener('input', validateInputs);
 
-    // ✅ Telegram বটে মেসেজ
-    const botToken = "7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
-    const chatId = "6108340963";
-    const message = `✅ নতুন অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({chat_id: chatId, text: message})
-    }).catch(err => console.error('Telegram notification failed:', err));
+function order() {
+  const uid = uidInput.value.trim();
+  const trxid = trxInput.value.trim().toUpperCase();
+  const pack = packInput.value.trim();
+
+  warningMsg.style.display = 'none';
+  successMsg.style.display = 'none';
+
+  if (!isValidTransactionID(trxid)) {
+    warningMsg.style.display = 'block';
+    warningMsg.textContent = '❌ আপনার ট্রাঞ্জেক্সন আইডি সঠিক নয়, সঠিক ট্রাঞ্জেক্সন দিয়ে ভেরিফাই করুন';
+    return;
   }
 
-  function completeOrder(trxid) {
-    let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-    const idx = allOrders.findIndex(o => o.trxid === trxid);
-    if(idx !== -1 && !allOrders[idx].completed) {
-      allOrders[idx].completed = true;
-      localStorage.setItem('allOrders', JSON.stringify(allOrders));
-      displayOrderHistory();
-      successMsg.textContent = `অর্ডার ${trxid} সম্পন্ন হয়েছে ✅`;
-      successMsg.style.display = 'block';
-    }
+  if (localStorage.getItem('used_trx_' + trxid)) {
+    warningMsg.style.display = 'block';
+    warningMsg.textContent = '⚠️ এই TrxID দিয়ে আগে থেকেই অর্ডার করা হয়েছে!';
+    return;
   }
 
-  function exportOrders() {
-    const allOrders = localStorage.getItem('allOrders');
-    if(!allOrders) {
-      alert('কোন অর্ডার নেই এক্সপোর্ট করার জন্য।');
-      return;
-    }
-    const blob = new Blob([allOrders], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'bdtopup_orders.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  const orderObj = {
+    uid, trxid, pack,
+    date: new Date().toLocaleString('bn-BD', { hour12: false }),
+    completed: false
+  };
 
+  const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  allOrders.push(orderObj);
+  localStorage.setItem('allOrders', JSON.stringify(allOrders));
+  localStorage.setItem('used_trx_' + trxid, 'true');
+
+  successMsg.style.display = 'block';
+  successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১–৫ মিনিটের মধ্যে ডেলিভারি পাবেন\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
+
+  uidInput.value = '';
+  trxInput.value = '';
+  packInput.value = '';
+  orderBtn.disabled = true;
   displayOrderHistory();
 
-  function copyText(elementId) {
-    const element = document.getElementById(elementId);
-    if (!element) return alert("❌ উপাদান খুঁজে পাওয়া যায়নি");
+  // ✅ Telegram বটে অর্ডার পাঠানো
+  fetch(`https://api.telegram.org/bot7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY/sendMessage`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      chat_id: '6108340963',
+      text: `✅ নতুন অর্ডার:\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`
+    })
+  });
+}
 
-    const text = element.innerText.trim();
-    if (!text) return alert("❌ কপি করার মতো কোনো লেখা পাওয়া যায়নি");
-
-    navigator.clipboard.writeText(text).then(() => {
-      showPopup("✅ কপি হয়েছে: " + text);
-    }).catch(() => {
-      alert("❌ কপি করা যায়নি");
-    });
+function displayOrderHistory() {
+  const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+  if (allOrders.length === 0) {
+    orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
+    return;
   }
+  orderHistoryDiv.innerHTML = allOrders.map((order, idx) => `
+    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px;">
+      📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
+      TrxID: ${order.trxid} <br>
+      Package: ${order.pack} <br>
+      Date: ${order.date} <br>
+      Status: ${order.completed ? '✅ Completed' : '⏳ Pending'}
+    </div>
+  `).join('');
+}
 
-  function showPopup(message) {
-    const popup = document.createElement("div");
-    popup.innerText = message;
-    Object.assign(popup.style, {
-      position: "fixed",
-      bottom: "20px",
-      left: "50%",
-      transform: "translateX(-50%)",
-      background: "#4CAF50",
-      color: "white",
-      padding: "10px 18px",
-      borderRadius: "10px",
-      fontSize: "16px",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-      zIndex: "9999",
-    });
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), 2500);
-  }
+function exportOrders() {
+  const data = localStorage.getItem('allOrders');
+  if (!data) return alert('কোনো অর্ডার নেই!');
+  const blob = new Blob([data], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bdtopup_orders.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  if (!el) return alert('উপাদান পাওয়া যায়নি');
+  navigator.clipboard.writeText(el.innerText.trim())
+    .then(() => alert('✅ কপি হয়েছে'))
+    .catch(() => alert('❌ কপি করা যায়নি'));
+}
+
+displayOrderHistory();
 </script>
