@@ -182,38 +182,31 @@
 <div id="UIDLike" class="tabcontent">
   <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
-</div><!-- ✅ অর্ডার বাটন ও এক্সপোর্ট -->
-<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
+</div><button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
 <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
-<!-- ✅ অর্ডার হিস্টোরি -->
 <div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
 <div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
 
-<!-- ✅ Footer Section -->
+<!-- Footer Section -->
 <div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
-  <p>
-    📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> 
+  <p>📞 <strong>যোগাযোগ (হেল্পলাইন):</strong> 
     <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a>
   </p>
-  <p>
-    📢 <strong>চ্যানেল:</strong> 
+  <p>📢 <strong>চ্যানেল:</strong> 
     <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a>
   </p>
   <hr style="margin: 10px 0;">
-  <p>
-    📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong> 
+  <p>📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong> 
     <span id="bkash-number">01608603364</span>
     <button onclick="copyText('bkash-number')">📋 কপি</button>
   </p>
-  <p>
-    📌 <strong>নগদ সেন্ড মানি করুন:</strong> 
+  <p>📌 <strong>নগদ সেন্ড মানি করুন:</strong> 
     <span id="nagad-number">01608603364</span>
     <button onclick="copyText('nagad-number')">📋 কপি</button>
   </p>
 </div>
 
-<!-- ✅ JavaScript -->
 <script>
   const uidInput = document.getElementById('uid');
   const trxInput = document.getElementById('trxid');
@@ -244,17 +237,6 @@
     validateInputs();
   }
 
-  function validateInputs() {
-    if(uidInput.value.trim() && trxInput.value.trim() && packInput.value.trim()) {
-      orderBtn.disabled = false;
-    } else {
-      orderBtn.disabled = true;
-    }
-  }
-
-  uidInput.addEventListener('input', validateInputs);
-  trxInput.addEventListener('input', validateInputs);
-
   function clearSelection() {
     if(selectedBox) {
       selectedBox.classList.remove('selected');
@@ -263,6 +245,36 @@
     packInput.value = '';
     validateInputs();
   }
+
+  // ✅ validateInputs ফাংশন যেখানে নতুন চেক যুক্ত
+  function validateInputs() {
+    const uid = uidInput.value.trim();
+    const trxid = trxInput.value.trim();
+    const pack = packInput.value.trim();
+    const validTrx = isValidTransactionID(trxid);
+
+    if (uid && trxid && pack && validTrx) {
+      orderBtn.disabled = false;
+      warningMsg.style.display = 'none';
+    } else {
+      orderBtn.disabled = true;
+      if (trxid && !validTrx) {
+        warningMsg.style.display = 'block';
+        warningMsg.textContent = '❌ আপনার ট্রাঞ্জেক্সন আইডি সঠিক নয়, সঠিক ট্রাঞ্জেক্সন দিয়ে ভেরিফাই করুন';
+      } else {
+        warningMsg.style.display = 'none';
+      }
+    }
+  }
+
+  function isValidTransactionID(id) {
+    const bkashPattern = /^[A-Z0-9]{10}$/;     // যেমন CGF90EMIEH
+    const nagadPattern = /^[0-9]{4}[A-Z]{4}$/; // যেমন 7449JOHV
+    return bkashPattern.test(id) || nagadPattern.test(id);
+  }
+
+  uidInput.addEventListener('input', validateInputs);
+  trxInput.addEventListener('input', validateInputs);
 
   function displayOrderHistory() {
     let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
@@ -287,7 +299,6 @@
     const uid = uidInput.value.trim();
     const trxid = trxInput.value.trim();
     const pack = packInput.value.trim();
-
     successMsg.style.display = 'none';
     warningMsg.style.display = 'none';
 
@@ -304,12 +315,14 @@
 
     if (!isValidTransactionID(trxid)) {
       warningMsg.style.display = 'block';
-      warningMsg.textContent = '❌ সঠিক TrxID দিন। যেমন বিকাশ: CGF9OEMIEH বা নগদ: 7449JOHV';
+      warningMsg.textContent = '❌ আপনার ট্রাঞ্জেক্সন আইডি সঠিক নয়, সঠিক ট্রাঞ্জেক্সন দিয়ে ভেরিফাই করুন';
       return;
     }
 
     const orderObj = {
-      uid, trxid, pack,
+      uid,
+      trxid,
+      pack,
       date: new Date().toLocaleString('bn-BD', {hour12:false}),
       completed: false
     };
@@ -320,19 +333,18 @@
     localStorage.setItem('used_trx_' + trxid, 'true');
 
     successMsg.style.display = 'block';
-    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিটের মধ্যে ডায়মন্ড যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
-
+    successMsg.textContent = `✅ অর্ডার সফল হয়েছে ইনশাআল্লাহ ১ থেকে ৫ মিনিট এর মধ্যে গেম আইডিতে ডায়মন্ড চলে যাবে\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
     uidInput.value = '';
     trxInput.value = '';
     clearSelection();
     orderBtn.disabled = true;
-
     displayOrderHistory();
 
     setTimeout(() => {
       completeOrder(trxid);
     }, 30000);
 
+    // ✅ Telegram বটে মেসেজ
     const botToken = "7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY";
     const chatId = "6108340963";
     const message = `✅ নতুন অর্ডার এসেছে :\nUID: ${uid}\nTrxID: ${trxid}\nPackage: ${pack}`;
@@ -340,9 +352,7 @@
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({chat_id: chatId, text: message})
-    }).catch(err => {
-      console.error('Telegram notification failed:', err);
-    });
+    }).catch(err => console.error('Telegram notification failed:', err));
   }
 
   function completeOrder(trxid) {
@@ -377,8 +387,10 @@
   function copyText(elementId) {
     const element = document.getElementById(elementId);
     if (!element) return alert("❌ উপাদান খুঁজে পাওয়া যায়নি");
+
     const text = element.innerText.trim();
     if (!text) return alert("❌ কপি করার মতো কোনো লেখা পাওয়া যায়নি");
+
     navigator.clipboard.writeText(text).then(() => {
       showPopup("✅ কপি হয়েছে: " + text);
     }).catch(() => {
@@ -405,13 +417,4 @@
     document.body.appendChild(popup);
     setTimeout(() => popup.remove(), 2500);
   }
-
-  function isValidTransactionID(id) {
-    const bkashPattern = /^[A-Z0-9]{10}$/;
-    const nagadPattern = /^[0-9]{4}[A-Z]{4}$/;
-    return bkashPattern.test(id) || nagadPattern.test(id);
-  }
 </script>
-
-</body>
-</html>
