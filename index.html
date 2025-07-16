@@ -8,8 +8,7 @@
     body {
       font-family: 'Arial', sans-serif;
       background: #f2f2f2;
-      margin: 0;
-      padding: 20px;
+      margin: 0; padding: 20px;
       text-align: center;
       color: #333;
     }
@@ -89,6 +88,22 @@
       border-radius: 6px;
       font-size: 16px;
     }
+    button#orderBtn {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      width: 200px;
+    }
+    button#orderBtn:disabled {
+      background-color: #7ec3db;
+      cursor: not-allowed;
+    }
     #warningMsg, #successMsg {
       max-width: 500px;
       margin: 15px auto;
@@ -108,6 +123,7 @@
       color: #155724;
       border: 1px solid #c3e6cb;
     }
+    #emailInput { display: none; }
   </style>
 </head>
 <body>
@@ -118,16 +134,14 @@
 <div id="warningMsg"></div>
 <div id="successMsg"></div>
 
-<!-- Input fields -->
 <input type="text" id="uid" placeholder="আপনার Game UID দিন" />
-<input type="email" id="email" placeholder="Garena Shell Email দিন" style="display:none;" />
 <input type="text" id="trxid" placeholder="TrxID (Transaction ID)" />
+<input type="email" id="emailInput" placeholder="আপনার Email দিন (শুধু Garena Shell এর জন্য)" />
 <input type="text" id="selectedPack" placeholder="আপনার প্যাকেজ সিলেক্ট করুন" readonly />
 
-<!-- Package Tabs -->
 <div class="tab" id="packageTabs">
   <button class="tablinks active" onclick="openTab(event, 'Bangladesh')">বাংলাদেশ</button>
-  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি</button>
+  <button class="tablinks" onclick="openTab(event, 'Weekly')">উইকলি/মান্থলি</button>
   <button class="tablinks" onclick="openTab(event, 'Airdrop')">এয়ারড্রপ</button>
   <button class="tablinks" onclick="openTab(event, 'Evo')">ইভো এক্সেস</button>
   <button class="tablinks" onclick="openTab(event, 'Indonesia')">ইন্দোনেশিয়া</button>
@@ -135,149 +149,111 @@
   <button class="tablinks" onclick="openTab(event, 'UIDLike')">UID Like</button>
 </div>
 
-<!-- Bangladesh -->
-<div id="Bangladesh" class="tabcontent" style="display:block;">
+<!-- সব প্যাকেজ ট্যাব এখানে থাকবে -->
+<div id="Bangladesh" class="tabcontent" style="display:block">
   <div class="box" onclick="selectPack(this)">২৫ ডায়মন্ড – ২৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৩৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">১১৫ ডায়মন্ড – ৭৯ টাকা</div>
   <div class="box" onclick="selectPack(this)">২৪০ ডায়মন্ড – ১৬০ টাকা</div>
   <div class="box" onclick="selectPack(this)">৬১০ ডায়মন্ড – ৩৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১২৪০ ডায়মন্ড – ৭৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২৫৩০ ডায়মন্ড – ১৫৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৫০৬০ ডায়মন্ড – ২৯৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১০১২০ ডায়মন্ড – ৬১০০ টাকা</div>
 </div>
 
-<!-- Weekly -->
 <div id="Weekly" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">উইকলি লাইট – ৩৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">উইকলি – ১৫০ টাকা</div>
-  <div class="box" onclick="selectPack(this)">মান্থলি – ৬৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">মান্থলি প্যাকেজ  – ৬৮০ টাকা</div>
   <div class="box" onclick="selectPack(this)">Level Up Pass – ৩৫০ টাকা</div>
 </div>
 
-<!-- Airdrop -->
 <div id="Airdrop" class="tabcontent">
   <div class="box" onclick="selectPack(this)">০.৯৯$ – ১০০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১.৯৯$ – ১৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">২.৯৯$ – ২৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩.৯৯$ – ৩৮০ টাকা</div>
 </div>
 
-<!-- Evo -->
 <div id="Evo" class="tabcontent">
   <div class="box" onclick="selectPack(this)">৩ দিন ইভো – ৬৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭ দিন ইভো – ১১০ টাকা</div>
   <div class="box" onclick="selectPack(this)">৩০ দিন ইভো – ২৮৭ টাকা</div>
 </div>
 
-<!-- Indonesia -->
 <div id="Indonesia" class="tabcontent">
+  <div class="box" onclick="selectPack(this)">৫ ডায়মন্ড – ১৫ টাকা</div>
   <div class="box" onclick="selectPack(this)">৫০ ডায়মন্ড – ৬০ টাকা</div>
   <div class="box" onclick="selectPack(this)">৭০ ডায়মন্ড – ৮০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪০ ডায়মন্ড – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৩৫৫ ডায়মন্ড – ৪৪০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">৭২০ ডায়মন্ড – ৮৩০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">১৪৪০ ডায়মন্ড – ১৮৯০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Level Up Pass – ১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Weekly – ২৫৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">Monthly – ৮৯৯ টাকা</div>
+  <div class="box" onclick="selectPack(this)">BP Card – ৩৯৯ টাকা</div>
 </div>
 
-<!-- Garena -->
 <div id="Garena" class="tabcontent">
-  <div class="box" onclick="selectPack(this)">290 Shell – ৩৬০ টাকা</div>
-  <div class="box" onclick="selectPack(this)">500 Shell – ৬১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 290 Shell – ৩৬০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 390 Shell – ৪৭৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 500 Shell – ৬১০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 650 Shell – ৭৬৫ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 725 Shell – ৮৫০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1000 Shell – ১১৭০ টাকা</div>
+  <div class="box" onclick="selectPack(this)">🪽 1300 Shell – ১৫১০ টাকা</div>
 </div>
 
-<!-- UID Like -->
 <div id="UIDLike" class="tabcontent">
   <div class="box" onclick="selectPack(this)">১০০ লাইক – ২০ টাকা</div>
   <div class="box" onclick="selectPack(this)">১০০০ লাইক – ৯০ টাকা</div>
-  </div><!-- Order Buttons -->
-<button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button>
-<button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
+</div><button id="orderBtn" onclick="order()" disabled>✅ অর্ডার করুন</button> <button onclick="exportOrders()">🗂️ অর্ডার এক্সপোর্ট করুন (JSON)</button>
 
-<!-- Order History -->
 <div class="section-title" style="margin-top:30px; font-weight:bold; font-size:18px;">অর্ডার হিস্টোরি</div>
-<div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div>
-
-<!-- Footer -->
-<div id="footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 16px;">
-  <p>
-    📞 <strong>যোগাযোগ (হেল্পলাইন):</strong>
-    <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a>
-  </p>
-  <p>
-    📢 <strong>চ্যানেল:</strong>
-    <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a>
-  </p>
-  <hr style="margin: 10px 0;">
-  <p>
-    📌 <strong>বিকাশ মার্চেন্ট পেমেন্ট করুন:</strong>
-    <span id="bkash-number">01608603364</span>
-    <button onclick="copyText('bkash-number')">📋 কপি</button>
-  </p>
-  <p>
-    📌 <strong>নগদ সেন্ড মানি করুন:</strong>
-    <span id="nagad-number">01608603364</span>
-    <button onclick="copyText('nagad-number')">📋 কপি</button>
-  </p>
-</div>
-
-<script>
+<div id="orderHistory">আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।</div><!-- Footer --><div id="footer">
+  <p>📞 <strong>যোগাযোগ:</strong> <a href="https://t.me/BDTOPUPCOM24" target="_blank">@BDTOPUPCOM24</a></p>
+  <p>📢 <strong>চ্যানেল:</strong> <a href="https://t.me/BDTOPUPCOM247" target="_blank">BDTOPUPCOM247</a></p>
+  <p>📌 <strong>বিকাশ:</strong> <span id="bkash-number">01608603364</span> <button onclick="copyText('bkash-number')">📋 কপি</button></p>
+  <p>📌 <strong>নগদ:</strong> <span id="nagad-number">01608603364</span> <button onclick="copyText('nagad-number')">📋 কপি</button></p>
+</div><script>
 const uidInput = document.getElementById('uid');
-const emailInput = document.getElementById('email');
 const trxInput = document.getElementById('trxid');
 const packInput = document.getElementById('selectedPack');
+const emailInput = document.getElementById('email'); // নতুন ইমেইল ইনপুট
 const orderBtn = document.getElementById('orderBtn');
 const successMsg = document.getElementById('successMsg');
 const warningMsg = document.getElementById('warningMsg');
 const orderHistoryDiv = document.getElementById('orderHistory');
 let selectedBox = null;
 
-// Show/hide email for Garena
-function openTab(evt, tabName) {
-  document.querySelectorAll('.tabcontent').forEach(tab => tab.style.display = 'none');
-  document.querySelectorAll('.tab button').forEach(btn => btn.classList.remove('active'));
-  document.getElementById(tabName).style.display = 'block';
-  evt.currentTarget.classList.add('active');
-  clearSelection();
-
-  // Garena requires email
-  if (tabName === 'Garena') {
-    emailInput.style.display = 'inline-block';
-  } else {
-    emailInput.style.display = 'none';
-    emailInput.value = '';
-  }
-}
-
-function selectPack(elem) {
-  if (selectedBox) selectedBox.classList.remove('selected');
-  selectedBox = elem;
-  elem.classList.add('selected');
-  packInput.value = elem.textContent.trim();
-  successMsg.style.display = 'none';
-  warningMsg.style.display = 'none';
-  validateInputs();
-}
-
-function clearSelection() {
-  if (selectedBox) selectedBox.classList.remove('selected');
-  selectedBox = null;
-  packInput.value = '';
-  validateInputs();
-}
-
 function isValidTransactionID(id) {
+  id = id.trim().toUpperCase();
   const bkashPattern = /^[A-Z0-9]{10}$/;
   const nagadPattern = /^[0-9]{4}[A-Z]{4}$/;
   return bkashPattern.test(id) || nagadPattern.test(id);
 }
 
 function validateInputs() {
-  const uid = uidInput.value.trim();
-  const email = emailInput.style.display !== 'none' ? emailInput.value.trim() : 'ok';
-  const trxid = trxInput.value.trim();
-  const pack = packInput.value.trim();
-  orderBtn.disabled = !(uid && trxid && pack && email);
+  const uidFilled = uidInput.value.trim();
+  const trxFilled = trxInput.value.trim();
+  const packFilled = packInput.value.trim();
+  const emailVisible = emailInput && emailInput.style.display !== 'none';
+  const emailFilled = !emailVisible || (emailInput.value && emailInput.value.includes('@'));
+
+  orderBtn.disabled = !(uidFilled && trxFilled && packFilled && emailFilled);
 }
 
 uidInput.addEventListener('input', validateInputs);
 trxInput.addEventListener('input', validateInputs);
-emailInput.addEventListener('input', validateInputs);
+if(emailInput) emailInput.addEventListener('input', validateInputs);
 
 function order() {
   const uid = uidInput.value.trim();
-  const email = emailInput.style.display !== 'none' ? emailInput.value.trim() : '';
   const trxid = trxInput.value.trim().toUpperCase();
   const pack = packInput.value.trim();
+  const email = emailInput ? emailInput.value.trim() : '';
 
   warningMsg.style.display = 'none';
   successMsg.style.display = 'none';
@@ -295,7 +271,7 @@ function order() {
   }
 
   const orderObj = {
-    uid, email, trxid, pack,
+    uid, trxid, pack, email,
     date: new Date().toLocaleString('bn-BD', { hour12: false }),
     completed: false
   };
@@ -305,39 +281,37 @@ function order() {
   localStorage.setItem('allOrders', JSON.stringify(allOrders));
   localStorage.setItem('used_trx_' + trxid, 'true');
 
-  // Success message
-  let successText = `✅ অর্ডার সফল হয়েছে!\nUID: ${uid}\nপ্যাকেজ: ${pack}`;
-  if (email) successText += `\nEmail: ${email}`;
-  successMsg.style.display = 'block';
-  successMsg.textContent = successText;
+  let message = '';
+  if (pack.includes('Shell')) {
+    message = `✅ Garena Shell অর্ডার সফল!\nআপনার ইউজার আইডি যাচাই করে ১-৫ মিনিটের মধ্যে ইমেইল এ শেল রিডিম কোড পাঠানো হবে ইনশাআল্লাহ।\n📌 UID: ${uid}\n📧 Email: ${email}\n📦 প্যাকেজ: ${pack}`;
+  } else if (pack.includes('লাইক')) {
+    message = `✅ UID Like অর্ডার সফল!\nআপনার UID তে ${pack} লাইক দেওয়া হবে ইনশাআল্লাহ কিছুক্ষণের মধ্যে।\n📌 UID: ${uid}\n📦 প্যাকেজ: ${pack}`;
+  } else if (pack.includes('$')) {
+    message = `✅ Airdrop অর্ডার সফল!\nআপনার আইডিতে ${pack} প্যাক রিচার্জ হয়ে যাবে ১-৫ মিনিটের মধ্যে ইনশাআল্লাহ।\n📌 UID: ${uid}`;
+  } else if (pack.includes('ইভো')) {
+    message = `✅ ইভো এক্সেস অর্ডার সফল!\nআপনার UID তে ${pack} একটিভ করা হবে ইনশাআল্লাহ।\n📌 UID: ${uid}`;
+  } else {
+    message = `✅ অর্ডার সফল হয়েছে!\nআপনার UID তে ${pack} টপআপ করা হবে ইনশাআল্লাহ ১-৫ মিনিটের মধ্যে।\n📌 UID: ${uid}`;
+  }
 
-  // Telegram message
-  const telegramMsg = `✅ নতুন অর্ডার:\nUID: ${uid}\n${email ? "Email: " + email + "\n" : ""}TrxID: ${trxid}\nPackage: ${pack}`;
+  successMsg.style.display = 'block';
+  successMsg.textContent = message;
+
+  uidInput.value = '';
+  trxInput.value = '';
+  if(emailInput) emailInput.value = '';
+  packInput.value = '';
+  orderBtn.disabled = true;
+  displayOrderHistory();
+
   fetch(`https://api.telegram.org/bot7786024985:AAFhfePQ1dtOcf7O85TVHpYTCMPffqZkVYY/sendMessage`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: '6108340963', text: telegramMsg })
+    body: JSON.stringify({
+      chat_id: '6108340963',
+      text: `✅ নতুন অর্ডার:\nUID: ${uid}\n${email ? 'Email: ' + email + '\n' : ''}TrxID: ${trxid}\nPackage: ${pack}`
+    })
   });
-
-  // Reset
-  uidInput.value = '';
-  trxInput.value = '';
-  emailInput.value = '';
-  packInput.value = '';
-  orderBtn.disabled = true;
-  clearSelection();
-  displayOrderHistory();
-  setTimeout(() => completeOrder(trxid), 30000);
-}
-
-function completeOrder(trxid) {
-  const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
-  const idx = allOrders.findIndex(o => o.trxid === trxid);
-  if (idx !== -1 && !allOrders[idx].completed) {
-    allOrders[idx].completed = true;
-    localStorage.setItem('allOrders', JSON.stringify(allOrders));
-    displayOrderHistory();
-  }
 }
 
 function displayOrderHistory() {
@@ -346,22 +320,22 @@ function displayOrderHistory() {
     orderHistoryDiv.innerHTML = 'আপনার কোন অর্ডার রেকর্ড পাওয়া যায়নি।';
     return;
   }
-  orderHistoryDiv.innerHTML = allOrders.map((order, i) => `
-    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px;">
-      📝 <b>${i + 1}.</b> UID: ${order.uid}<br>
-      ${order.email ? `Email: ${order.email}<br>` : ''}
-      TrxID: ${order.trxid}<br>
-      Package: ${order.pack}<br>
-      Date: ${order.date}<br>
-      Status: ${order.completed ? '✅ Completed' : '⏳ Pending'}
+  orderHistoryDiv.innerHTML = allOrders.map((order, idx) => `
+    <div style="background:#e3f2fd; margin:8px 0; padding:10px; border-radius:8px; border:1px solid #90caf9;">
+      📝 <b>${idx + 1}.</b> UID: ${order.uid} <br>
+      TrxID: ${order.trxid} <br>
+      Package: ${order.pack} <br>
+      ${order.email ? 'Email: ' + order.email + '<br>' : ''}
+      Date: ${order.date} <br>
+      Status: ${order.completed ? '<span class="order-completed">Completed ✅</span>' : '<span class="order-pending">Pending ⏳</span>'}
     </div>
   `).join('');
 }
 
 function exportOrders() {
   const data = localStorage.getItem('allOrders');
-  if (!data) return alert('❌ কোনো অর্ডার নেই!');
-  const blob = new Blob([data], { type: 'application/json' });
+  if (!data) return alert('কোনো অর্ডার নেই!');
+  const blob = new Blob([data], {type: 'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -372,7 +346,7 @@ function exportOrders() {
 
 function copyText(id) {
   const el = document.getElementById(id);
-  if (!el) return alert('❌ উপাদান পাওয়া যায়নি');
+  if (!el) return alert('উপাদান পাওয়া যায়নি');
   navigator.clipboard.writeText(el.innerText.trim())
     .then(() => alert('✅ কপি হয়েছে'))
     .catch(() => alert('❌ কপি করা যায়নি'));
